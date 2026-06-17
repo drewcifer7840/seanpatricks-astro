@@ -1,0 +1,40 @@
+media: public/img
+content:
+  - name: menus
+    label: Menus
+    type: collection
+    path: src/content/menus
+    extension: md
+    fields:
+      - name: title
+        label: Page title
+        type: string
+      - name: summary
+        label: Subtitle / tagline
+        type: string
+      - name: service
+        label: Service category
+        type: select
+        default: banquet
+        options:
+          - banquet
+          - breakfast
+          - beverage
+          - brunch
+          - catering
+          - cocktails
+          - dinner
+          - holiday
+          - lunch
+      - name: priceTier
+        label: Price tier
+        type: select
+        options: ["$", "$$", "$$$"]
+      - name: sections
+        label: Menu sections
+        type: code
+        language: yaml
+      - name: packages
+        label: Packages
+        type: code
+        language: yaml
