@@ -33,8 +33,10 @@ content:
       - name: sections
         label: Menu sections
         type: code
-        language: yaml
+        options:
+          format: yaml
       - name: packages
         label: Packages
         type: code
-        language: yaml
+        options:
+          format: yaml
