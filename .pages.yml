@@ -1,42 +1,419 @@
 media: public/img
+
 content:
   - name: menus
-    label: Menus
+    label: "Menus"
     type: collection
-    path: src/content/menus
-    extension: md
+    path: "src/content/menus"
+    extension: "md"
+    description: "Menu and package content for Sean Patrick's site. Each file is a markdown page with structured frontmatter."
+    view:
+      fields: [title, service, priceTier]
+      primary: title
+      sort: [title]
+      default:
+        sort: title
+        order: asc
     fields:
+      # ---------------------------------------------------------------
+      # Top-level page fields
+      # ---------------------------------------------------------------
       - name: title
-        label: Page title
+        label: "Page title"
         type: string
+        required: true
+        description: "Headline shown at the top of the page (e.g. \"Dinner Menu\")."
+
       - name: summary
-        label: Subtitle / tagline
+        label: "Subtitle / tagline"
         type: string
+        description: "Short line under the title (e.g. \"Dine in · Evening service\")."
+
       - name: service
-        label: Service category
+        label: "Service category"
         type: select
-        default: banquet
+        default: "banquet"
         options:
-          - banquet
-          - breakfast
-          - beverage
-          - brunch
-          - catering
-          - cocktails
-          - dinner
-          - holiday
-          - lunch
+          - "banquet"
+          - "beverage"
+          - "breakfast"
+          - "brunch"
+          - "catering"
+          - "cocktails"
+          - "dinner"
+          - "holiday"
+          - "lunch"
+        description: "Used by the page to pick which template/header to render."
+
       - name: priceTier
-        label: Price tier
+        label: "Price tier"
         type: select
         options: ["$", "$$", "$$$"]
+
+      # ---------------------------------------------------------------
+      # sections — used by menu-list pages (dinner, lunch, drinks)
+      # Each section is a card on the page. Pick a layout; the relevant
+      # fields below it get filled in. Leave the others blank.
+      # ---------------------------------------------------------------
       - name: sections
-        label: Menu sections
-        type: code
-        options:
-          format: yaml
+        label: "Menu sections"
+        type: object
+        description: "Cards rendered in order down the page. Pick a layout and fill in the matching fields."
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{heading} — {layout}"
+        fields:
+          - name: heading
+            label: "Section heading"
+            type: string
+            required: true
+
+          - name: layout
+            label: "Section layout"
+            type: select
+            default: "items"
+            options:
+              - "items"
+              - "sides"
+              - "pricelist"
+              - "wine"
+              - "info"
+              - "promo"
+            description: |
+              items    — card grid of menu items (Starters, Entrees, etc.)
+              sides    — 2-column block of plain list items
+              pricelist — compact name+price rows (beers)
+              wine     — house wine + glass groups + bottles
+              info     — 3-column info cards (Beverages, Kids, Dessert)
+              promo    — promo cards (Happy Hour, Weekly Specials)
+
+          - name: note
+            label: "Italic note above the items"
+            type: text
+
+          - name: footnote
+            label: "Section footnote"
+            type: text
+            description: "Shown below the section. Markdown allowed."
+
+          # ----- layout: items ----------------------------------------
+          - name: items
+            label: "Items (layout: items)"
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{name}"
+            fields:
+              - name: name
+                type: string
+                required: true
+              - name: description
+                type: text
+              - name: price
+                label: "Price (single)"
+                type: string
+                description: "e.g. \"$14.50\". Leave blank if using priceOptions."
+              - name: priceOptions
+                label: "Price options (multi)"
+                type: object
+                description: "Use for cup/bowl, large/side, full/shrimp, etc."
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: "{label}: {value}"
+                fields:
+                  - name: label
+                    type: string
+                  - name: value
+                    type: string
+              - name: signature
+                label: "Signature item"
+                type: boolean
+                description: "Adds brand-accent border on the left."
+              - name: region
+                label: "Region (italic sub-text)"
+                type: string
+                description: "e.g. \"California\", \"Italy\" — used for wine regions."
+
+          # ----- layout: sides ----------------------------------------
+          - name: groups
+            label: "Groups (layout: sides)"
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{title}"
+            fields:
+              - name: title
+                type: string
+              - name: items
+                type: string
+                list: true
+                label: "Group items"
+                description: "One item per line."
+
+          # ----- layout: pricelist ------------------------------------
+          - name: columns
+            label: "Pricelist columns (layout: pricelist)"
+            type: object
+            description: "One entry per column on the page."
+            list:
+              collapsible:
+                collapsed: true
+                summary: "Column {index}"
+            fields:
+              - name: items
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: "{name} — {price}"
+                fields:
+                  - name: name
+                    type: string
+                  - name: price
+                    type: string
+
+          # ----- layout: wine -----------------------------------------
+          - name: house
+            label: "House wine block (layout: wine)"
+            type: object
+            description: "Highlighted block at the top of the wine section."
+            fields:
+              - name: heading
+                type: string
+              - name: list
+                type: text
+                description: "House wine list. HTML allowed (e.g. separators like &middot;)."
+
+          - name: glassGroups
+            label: "Glass groups (layout: wine)"
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{label}"
+            fields:
+              - name: label
+                type: string
+              - name: items
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: "{name} — {price}"
+                fields:
+                  - name: name
+                    type: string
+                  - name: price
+                    type: string
+                  - name: region
+                    type: string
+
+          - name: bottles
+            label: "Bottles (layout: wine)"
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{name} — {price}"
+            fields:
+              - name: name
+                type: string
+                required: true
+              - name: price
+                type: string
+              - name: region
+                type: string
+              - name: description
+                type: text
+
+          # ----- layout: info -----------------------------------------
+          - name: infoCards
+            label: "Info cards (layout: info)"
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{heading}"
+            fields:
+              - name: heading
+                type: string
+              - name: items
+                type: string
+                list: true
+                description: "One bullet per item. HTML allowed (e.g. <em> for emphasis)."
+
+          # ----- layout: promo ----------------------------------------
+          - name: promos
+            label: "Promos (layout: promo)"
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{heading}"
+            fields:
+              - name: heading
+                type: string
+              - name: hours
+                type: string
+                description: "e.g. \"Daily 11:00 AM – 6:00 PM · Bar & high tops only\""
+              - name: items
+                type: string
+                list: true
+
+      # ---------------------------------------------------------------
+      # packages — used by package-list pages (banquet-*, breakfast,
+      # holiday-*, cocktail-parties). Each package is a sticky identity
+      # + content card.
+      # ---------------------------------------------------------------
       - name: packages
-        label: Packages
-        type: code
-        options:
-          format: yaml
+        label: "Packages (banquet, holiday, breakfast, cocktails)"
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{label}"
+        fields:
+          - name: label
+            type: string
+            required: true
+            description: "Package title (e.g. \"Sit Down Dinner\", \"Lunch Buffet\")."
+
+          - name: eyebrow
+            label: "Eyebrow (small uppercase label)"
+            type: string
+            description: "Optional small label above the title (e.g. \"Holiday Dining\")."
+
+          - name: meta
+            label: "Meta line"
+            type: string
+            description: "Optional small line under the title (e.g. \"Minimum 35 Adult Guests\")."
+
+          - name: reserveLabel
+            label: "Reserve label"
+            type: string
+            description: "e.g. \"Reservations Suggested\". Shown on the contact callout."
+
+          - name: compact
+            label: "Compact (no left identity)"
+            type: boolean
+            description: "Render as a single-column sub-card, no sticky left panel."
+
+          - name: price
+            label: "Price (single)"
+            type: string
+            description: "e.g. \"$30\" or \"$30–$49\". Use prices/priceTable for more."
+
+          - name: priceUnit
+            label: "Price unit"
+            type: string
+            description: "e.g. \"per person\" or \"per person (Ages 4-10: $18)\"."
+
+          - name: prices
+            label: "Multiple prices"
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{amount} — {unit}"
+            fields:
+              - name: amount
+                type: string
+              - name: unit
+                type: string
+
+          - name: priceTable
+            label: "Price tier table (holiday pages)"
+            type: object
+            description: "Adult / Children / Free tier table."
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{label} — {amount}"
+            fields:
+              - name: label
+                type: string
+              - name: amount
+                type: string
+              - name: free
+                type: boolean
+
+          - name: ruleNote
+            label: "Rule note"
+            type: text
+            description: "Italic rule note box. HTML allowed (e.g. <br>, <em>)."
+
+          - name: contact
+            label: "Contact callout"
+            type: object
+            description: "Contact block at the bottom of the identity panel."
+            fields:
+              - name: name
+                type: string
+              - name: title
+                type: string
+              - name: phone
+                type: string
+              - name: text
+                type: string
+                description: "Optional extra line (e.g. \"Questions? Reach out before booking.\")."
+
+          - name: subSections
+            label: "Sub-sections"
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{title} ({type})"
+            fields:
+              - name: title
+                type: string
+                required: true
+              - name: note
+                type: text
+              - name: type
+                label: "Sub-section type"
+                type: select
+                default: "items"
+                options:
+                  - "items"
+                  - "pricelist"
+                  - "sides"
+                  - "upgrades"
+                description: |
+                  items     — bullet list
+                  pricelist — name+price rows (use columns below)
+                  sides     — 2-col grid of plain list items
+                  upgrades  — bold-name + description (Carving Station, etc.)
+              - name: items
+                label: "Items (string list)"
+                type: string
+                list: true
+                description: "One item per line. Leave blank if using columns."
+              - name: columns
+                label: "Columns (for type: pricelist)"
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: "Column {index}"
+                fields:
+                  - name: items
+                    type: object
+                    list:
+                      collapsible:
+                        collapsed: true
+                        summary: "{name} — {price}"
+                    fields:
+                      - name: name
+                        type: string
+                      - name: price
+                        type: string
+
+          - name: footerNote
+            label: "Footer note"
+            type: text
+            description: "Shown below the content panel. HTML allowed."
