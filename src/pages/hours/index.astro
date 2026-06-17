@@ -1,0 +1,113 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import './hours.css';
+const title = "Hours — Sean Patrick's Emerald Isle";
+const description = undefined;
+const loadMap = false;
+---
+
+<BaseLayout title={title} loadMap={loadMap}>
+<div class="sp-hours-page">
+<section class="sp-hours" aria-label="Business hours">
+
+  <!-- Header -->
+  <div class="sp-hours__header">
+    <div>
+      <p class="sp-hours__title">Business Hours</p>
+      <p class="sp-hours__date" id="sp-hours-date"></p>
+    </div>
+    <span class="sp-hours__status" id="sp-hours-status" aria-live="polite"></span>
+  </div>
+
+  <!-- Mon -->
+  <div class="sp-hours__row" data-day="1" data-open="11:30" data-close="21:00">
+    <div class="sp-hours__day-group">
+      <svg class="sp-hours__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+      </svg>
+      <span class="sp-hours__day">Monday</span>
+    </div>
+    <div class="sp-hours__times">
+      <span class="sp-hours__time">11:30am – 9:00pm</span>
+    </div>
+  </div>
+
+  <!-- Tue -->
+  <div class="sp-hours__row" data-day="2" data-open="11:30" data-close="21:00">
+    <div class="sp-hours__day-group">
+      <svg class="sp-hours__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+      </svg>
+      <span class="sp-hours__day">Tuesday</span>
+    </div>
+    <div class="sp-hours__times">
+      <span class="sp-hours__time">11:30am – 9:00pm</span>
+    </div>
+  </div>
+
+  <!-- Wed -->
+  <div class="sp-hours__row" data-day="3" data-open="11:30" data-close="21:00">
+    <div class="sp-hours__day-group">
+      <svg class="sp-hours__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+      </svg>
+      <span class="sp-hours__day">Wednesday</span>
+    </div>
+    <div class="sp-hours__times">
+      <span class="sp-hours__time">11:30am – 9:00pm</span>
+    </div>
+  </div>
+
+  <!-- Thu -->
+  <div class="sp-hours__row" data-day="4" data-open="11:30" data-close="21:00">
+    <div class="sp-hours__day-group">
+      <svg class="sp-hours__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+      </svg>
+      <span class="sp-hours__day">Thursday</span>
+    </div>
+    <div class="sp-hours__times">
+      <span class="sp-hours__time">11:30am – 9:00pm</span>
+    </div>
+  </div>
+
+  <!-- Fri -->
+  <div class="sp-hours__row" data-day="5" data-open="11:30" data-close="22:00">
+    <div class="sp-hours__day-group">
+      <svg class="sp-hours__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+      </svg>
+      <span class="sp-hours__day">Friday</span>
+    </div>
+    <div class="sp-hours__times">
+      <span class="sp-hours__time">11:30am – 10:00pm</span>
+    </div>
+  </div>
+
+  <!-- Sat -->
+  <div class="sp-hours__row" data-day="6" data-open="16:00" data-close="22:00">
+    <div class="sp-hours__day-group">
+      <svg class="sp-hours__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+      </svg>
+      <span class="sp-hours__day">Saturday</span>
+    </div>
+    <div class="sp-hours__times">
+      <span class="sp-hours__time">4:00pm – 10:00pm</span>
+    </div>
+  </div>
+
+  <!-- Sun — Closed -->
+  <div class="sp-hours__row sp-hours__row--closed" data-day="0">
+    <div class="sp-hours__day-group">
+      <svg class="sp-hours__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+      </svg>
+      <span class="sp-hours__day">Sunday</span>
+    </div>
+    <span class="sp-hours__badge sp-hours__badge--closed">Closed</span>
+  </div>
+
+  </section>
+</div>
+</BaseLayout>

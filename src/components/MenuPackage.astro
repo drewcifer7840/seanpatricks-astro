@@ -1,0 +1,638 @@
+---
+/**
+ * MenuPackage.astro
+ * -----------------
+ * Renders one "sticky identity + content" card. This is the master
+ * pattern for breakfast, banquets, and holidays.
+ *
+ *   ┌──────────────┬──────────────────────────────────┐
+ *   │  LABEL       │  Sub-section                     │
+ *   │  ───         │  ─────────                       │
+ *   │  meta        │  • item                          │
+ *   │  $30 /person │  • item                          │
+ *   │  rule note   │                                  │
+ *   │              │  Sub-section 2                   │
+ *   │              │  ...                             │
+ *   └──────────────┴──────────────────────────────────┘
+ *
+ * Sub-section types:
+ *   items     (default) — bullet list of strings
+ *   pricelist           — name+price rows (1+ columns)
+ *   sides               — 2-col grid of plain list items (hors d'oeuvres)
+ *   upgrades            — bold name + description (Carving Station, etc.)
+ *
+ * All styles are scoped (Astro hashes the selectors).
+ */
+
+interface SubSection {
+  title: string;
+  note?: string;
+  type?: 'items' | 'pricelist' | 'sides' | 'upgrades' | 'bar-note' | 'extras';
+  /** Used by the 'extras' sub-section type to render a price line (e.g. "$3.00 Per Person"). */
+  price?: string;
+  items?: string[];
+  columns?: { items: { name: string; price: string }[] }[];
+}
+
+interface Package {
+  label: string;
+  /** Lead paragraph rendered at the top of the content area (for intro-style cards). */
+  intro?: string;
+  meta?: string;
+  price?: string;
+  priceUnit?: string;
+  prices?: { amount: string; unit: string }[];
+  priceTable?: { label: string; amount: string; free?: boolean }[];
+  ruleNote?: string;
+  contact?: {
+    name?: string;
+    title?: string;
+    phone?: string;
+    text?: string;
+  };
+  subSections?: SubSection[];
+  footerNote?: string;
+}
+
+interface Props {
+  pkg: Package;
+  // True for the very first package on a page (h1). Otherwise h2.
+  isFirst?: boolean;
+  // True for sub-cards that don't have a left identity panel
+  // (e.g. "Upgrades" sections). Renders as a single full-width column.
+  compact?: boolean;
+}
+
+const { pkg, isFirst = false, compact = false } = Astro.props;
+---
+
+<div class:list={['sp-pkg__card', !compact && 'sp-pkg__split']}>
+
+  {!compact && (
+  <aside class="sp-pkg__identity">
+    {pkg.eyebrow && <p class="sp-pkg__eyebrow">{pkg.eyebrow}</p>}
+    {isFirst ? (
+      <h1 class="sp-pkg__label">{pkg.label}</h1>
+    ) : (
+      <h2 class="sp-pkg__label">{pkg.label}</h2>
+    )}
+    <div class="sp-pkg__bar" aria-hidden="true"></div>
+
+    {pkg.meta && <p class="sp-pkg__meta">{pkg.meta}</p>}
+
+    {pkg.contact && pkg.reserveLabel && (
+      <div class="sp-pkg__reserve">
+        <p class="sp-pkg__reserve-label">{pkg.reserveLabel}</p>
+        {pkg.contact.phone && <a href={`tel:${pkg.contact.phone.replace(/\D/g, '')}`} class="sp-pkg__reserve-phone">{pkg.contact.phone}</a>}
+      </div>
+    )}
+
+    {pkg.price && (
+      <div class="sp-pkg__price">
+        <span class="sp-pkg__price-amount">{pkg.price}</span>
+        {pkg.priceUnit && <span class="sp-pkg__price-unit">{pkg.priceUnit}</span>}
+      </div>
+    )}
+
+    {pkg.prices && pkg.prices.map((p) => (
+      <div class="sp-pkg__price">
+        <span class="sp-pkg__price-amount">{p.amount}</span>
+        <span class="sp-pkg__price-unit">{p.unit}</span>
+      </div>
+    ))}
+
+    {pkg.priceTable && (
+      <div class="sp-pkg__pricing" role="table" aria-label="Pricing">
+        <p class="sp-pkg__pricing-heading">Pricing</p>
+        {pkg.priceTable.map((row, i) => (
+          <>
+            {i > 0 && pkg.priceTable && pkg.priceTable[i - 1] && pkg.priceTable[i] && (
+              pkg.priceTable[i - 1].free !== pkg.priceTable[i].free && (
+                <div class="sp-pkg__price-divider" role="separator"></div>
+              )
+            )}
+            <div class="sp-pkg__price-row" role="row">
+              <span class="sp-pkg__price-label" role="cell">{row.label}</span>
+              <span
+                class:list={['sp-pkg__price-amount', row.free && 'sp-pkg__price-amount--free']}
+                role="cell"
+              >{row.amount}</span>
+            </div>
+          </>
+        ))}
+      </div>
+    )}
+
+    {pkg.ruleNote && (
+      <p class="sp-pkg__rule-note" set:html={pkg.ruleNote} />
+    )}
+
+    {pkg.contact && (
+      <div class="sp-pkg__contact">
+        <span class="sp-pkg__contact-icon" aria-hidden="true">✉</span>
+        <div class="sp-pkg__contact-body">
+          <strong>{pkg.contact.name} — {pkg.contact.title}</strong>
+          {pkg.contact.text && <div>{pkg.contact.text}</div>}
+          {pkg.contact.phone && <a href={`tel:${pkg.contact.phone.replace(/\D/g, '')}`}>{pkg.contact.phone}</a>}
+        </div>
+      </div>
+    )}
+  </aside>
+  )}
+
+  <div class:list={['sp-pkg__content', compact && 'sp-pkg__content--solo']}>
+    {compact && (
+      <div class="sp-pkg__sub-heading">
+        <h2 class="sp-pkg__sub-title" style="font-size: var(--text-lg); color: var(--text-brand); text-transform: none; letter-spacing: 0;">{pkg.label}</h2>
+        <div class="sp-pkg__sub-rule" aria-hidden="true"></div>
+        {pkg.price && <span class="sp-pkg__compact-note">{pkg.price}{pkg.priceUnit ? ` ${pkg.priceUnit}` : ''}</span>}
+      </div>
+    )}
+    {pkg.intro && (
+      <p class="sp-pkg__intro" set:html={pkg.intro} />
+    )}
+    {pkg.subSections && pkg.subSections.map((sub) => (
+      <div>
+        <div class="sp-pkg__sub-heading">
+          <p class="sp-pkg__sub-title">{sub.title}</p>
+          <div class="sp-pkg__sub-rule" aria-hidden="true"></div>
+        </div>
+
+        {sub.note && (
+          <p class="sp-pkg__sub-note" set:html={sub.note} />
+        )}
+
+        {sub.type === 'pricelist' && sub.columns && (
+          <div class:list={[sub.columns.length > 1 && 'sp-pkg__cols-2']}>
+            {sub.columns.map((col) => (
+              <div class="sp-pkg__pricelist">
+                {col.items.map((row) => (
+                  <div class="sp-pkg__pricelist-row">
+                    <span class="sp-pkg__pricelist-name">{row.name}</span>
+                    <span class="sp-pkg__pricelist-price">{row.price}</span>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {sub.type === 'pricelist' && !sub.columns && sub.items && (
+          <div class="sp-pkg__pricelist">
+            {sub.items.map((entry) => (
+              <div class="sp-pkg__pricelist-row">
+                <span class="sp-pkg__pricelist-name">{entry}</span>
+                <span></span>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {(sub.type === 'items' || !sub.type) && sub.items && (
+          <ul class="sp-pkg__items">
+            {sub.items.map((entry) => (
+              <li set:html={entry} />
+            ))}
+          </ul>
+        )}
+
+        {sub.type === 'sides' && sub.items && (
+          <div class="sp-pkg__sides">
+            {sub.items.map((entry) => (
+              <p class="sp-pkg__side">{entry}</p>
+            ))}
+          </div>
+        )}
+
+        {sub.type === 'upgrades' && sub.items && (
+          <div class="sp-pkg__upgrades">
+            {sub.items.map((entry) => (
+              <p class="sp-pkg__upgrade-item" set:html={entry} />
+            ))}
+          </div>
+        )}
+
+        {sub.type === 'bar-note' && sub.items && (
+          <div class="sp-pkg__bar-note">
+            {sub.items.map((entry) => (
+              <p set:html={entry} />
+            ))}
+          </div>
+        )}
+
+        {sub.type === 'extras' && sub.items && (
+          <div class="sp-pkg__extras">
+            <h3 class="sp-pkg__extras-heading">{sub.title}</h3>
+            {sub.price && <p class="sp-pkg__extras-price">{sub.price}</p>}
+            <div class="sp-pkg__extras-grid">
+              {(() => {
+                // Split the items into two columns for the grid layout
+                const mid = Math.ceil(sub.items!.length / 2);
+                const left = sub.items!.slice(0, mid);
+                const right = sub.items!.slice(mid);
+                return (
+                  <>
+                    <div class="sp-pkg__extras-list">
+                      {left.map((entry) => (
+                        <p class="sp-pkg__extras-item" set:html={entry} />
+                      ))}
+                    </div>
+                    <div class="sp-pkg__extras-list">
+                      {right.map((entry) => (
+                        <p class="sp-pkg__extras-item" set:html={entry} />
+                      ))}
+                    </div>
+                  </>
+                );
+              })()}
+            </div>
+          </div>
+        )}
+      </div>
+    ))}
+
+    {pkg.footerNote && (
+      <p class="sp-pkg__footer-note" set:html={pkg.footerNote} />
+    )}
+  </div>
+</div>
+
+<style>
+  /* ================================================================
+     PACKAGE CARD
+     ================================================================ */
+  .sp-pkg__card {
+    background: var(--bg-surface);
+    border-radius: var(--radius-md);
+    border-top: 3px solid var(--border-brand);
+    padding: var(--space-xl) var(--space-lg);
+  }
+
+  .sp-pkg__split {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: var(--space-xl);
+    align-items: start;
+  }
+
+  /* ── Left: identity ── */
+  .sp-pkg__identity {
+    position: sticky;
+    top: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .sp-pkg__label {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    color: var(--text-brand);
+    line-height: 1.1;
+    margin: 0;
+  }
+
+  .sp-pkg__bar {
+    width: 40px;
+    height: 3px;
+    background: var(--border-brand);
+    border-radius: var(--radius-sm);
+  }
+
+  .sp-pkg__eyebrow {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-brand);
+    margin: 0;
+  }
+
+  .sp-pkg__reserve {
+    margin-block-start: var(--space-md);
+  }
+
+  .sp-pkg__reserve-label {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--text-brand);
+    margin: 0 0 var(--space-2xs) 0;
+  }
+
+  .sp-pkg__reserve-phone {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: 700;
+    color: var(--text-brand);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+
+  .sp-pkg__meta {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Single price */
+  .sp-pkg__price {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    margin-block-start: var(--space-xs);
+  }
+
+  .sp-pkg__price-amount {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: 700;
+    color: var(--text-brand);
+    line-height: 1;
+  }
+
+  .sp-pkg__price-unit {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+  }
+
+  /* Pricing tier table (holiday pages) */
+  .sp-pkg__pricing {
+    margin-block-start: var(--space-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .sp-pkg__pricing-heading {
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    font-weight: 700;
+    color: var(--text-brand);
+    margin: 0 0 var(--space-xs) 0;
+  }
+
+  .sp-pkg__price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-sm);
+    padding-block: var(--space-xs);
+    font-size: var(--text-sm);
+  }
+
+  .sp-pkg__price-label {
+    color: var(--text-muted);
+  }
+
+  .sp-pkg__price-amount--free {
+    color: var(--text-main);
+    font-weight: 600;
+    font-style: italic;
+  }
+
+  .sp-pkg__price-divider {
+    height: 1px;
+    background: var(--border-light);
+    margin-block: var(--space-xs);
+  }
+
+  /* Italic rule note box */
+  .sp-pkg__rule-note {
+    margin-block-start: var(--space-sm);
+    padding: var(--space-sm);
+    background: var(--bg-surface-alt);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    line-height: 1.5;
+    font-style: italic;
+  }
+
+  /* Contact callout */
+  .sp-pkg__contact {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-md);
+    padding: var(--space-md);
+    background: var(--bg-surface-alt);
+    border-radius: var(--radius-sm);
+    margin-block-start: var(--space-sm);
+  }
+
+  .sp-pkg__contact-icon {
+    font-size: var(--text-lg);
+    flex-shrink: 0;
+    color: var(--brand-500);
+    line-height: 1.3;
+  }
+
+  .sp-pkg__contact-body {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    line-height: 1.65;
+  }
+
+  .sp-pkg__contact-body strong {
+    color: var(--text-main);
+    display: block;
+    margin-block-end: 2px;
+  }
+
+  .sp-pkg__contact-body a {
+    color: var(--text-brand);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  /* ── Right: content ── */
+  .sp-pkg__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  /* Compact (no left identity) — adjust top padding */
+  .sp-pkg__content--solo {
+    padding-block-start: 0;
+  }
+
+  /* Sub-section heading */
+  .sp-pkg__sub-heading {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-block-end: var(--space-sm);
+  }
+
+  .sp-pkg__sub-title {
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    white-space: nowrap;
+    margin: 0;
+  }
+
+  .sp-pkg__sub-rule {
+    flex: 1;
+    height: 1px;
+    background: var(--border-light);
+  }
+
+  .sp-pkg__sub-note {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    font-style: italic;
+    margin: 0 0 var(--space-sm) 0;
+  }
+
+  /* ── Items (bulleted) ── */
+  .sp-pkg__items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .sp-pkg__items li {
+    font-size: var(--text-sm);
+    color: var(--text-main);
+    line-height: 1.5;
+    padding-inline-start: var(--space-md);
+    position: relative;
+  }
+
+  .sp-pkg__items li::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: 0;
+    top: 0.5em;
+    width: 6px;
+    height: 6px;
+    border-radius: var(--radius-full);
+    background: var(--brand-500);
+    opacity: 0.6;
+  }
+
+  /* ── Pricelist (name + price rows) ── */
+  .sp-pkg__pricelist {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sp-pkg__pricelist-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    padding-block: var(--space-xs);
+    border-block-end: 1px solid var(--border-light);
+    font-size: var(--text-sm);
+  }
+
+  .sp-pkg__pricelist-row:last-child {
+    border-block-end: none;
+  }
+
+  .sp-pkg__pricelist-name {
+    color: var(--text-main);
+    font-weight: 600;
+    flex: 1;
+  }
+
+  .sp-pkg__pricelist-price {
+    color: var(--text-brand);
+    font-weight: 700;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .sp-pkg__cols-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg);
+  }
+
+  /* ── Sides (2-col grid of plain items) ── */
+  .sp-pkg__sides {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px var(--space-lg);
+  }
+
+  .sp-pkg__side {
+    font-size: var(--text-sm);
+    color: var(--text-main);
+    line-height: 1.5;
+    padding-inline-start: var(--space-md);
+    position: relative;
+    margin: 0;
+  }
+
+  .sp-pkg__side::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: 0;
+    top: 0.5em;
+    width: 6px;
+    height: 6px;
+    border-radius: var(--radius-full);
+    background: var(--accent-500);
+    opacity: 0.5;
+  }
+
+  /* ── Upgrades (bold name + description) ── */
+  .sp-pkg__upgrades {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .sp-pkg__upgrade-item {
+    font-size: var(--text-sm);
+    color: var(--text-main);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .sp-pkg__upgrade-item :global(strong) {
+    color: var(--text-brand);
+    font-weight: 700;
+    margin-inline-end: var(--space-xs);
+  }
+
+  .sp-pkg__compact-note {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  /* Footer note */
+  .sp-pkg__footer-note {
+    background: var(--bg-surface-alt);
+    border-radius: var(--radius-sm);
+    padding: var(--space-sm) var(--space-md);
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  /* ================================================================
+     RESPONSIVE
+     ================================================================ */
+  @media (max-width: 768px) {
+    .sp-pkg__split { grid-template-columns: 1fr; gap: var(--space-lg); }
+    .sp-pkg__identity { position: static; }
+    .sp-pkg__cols-2 { grid-template-columns: 1fr; }
+    .sp-pkg__sides { grid-template-columns: 1fr; }
+    .sp-pkg__extras-grid { grid-template-columns: 1fr; }
+  }
+</style>

@@ -1,0 +1,141 @@
+/* ================================================================
+   TERMS PAGE — page-scoped styles
+   Owner: src/pages/terms/index.astro
+   Scope: only matches elements rendered by this page.
+   Note: body-level overrides (color, font, line-height, padding)
+   that were previously in the <style is:global> block have been
+   moved onto the .terms wrapper, so they still apply to everything
+   the page renders without leaking globally.
+   ================================================================ */
+
+.terms {
+  width: 100%;
+  max-width: 760px;
+  margin-inline: auto;
+  padding: var(--space-2xl) var(--space-md);
+  color: var(--text-body);
+  font-family: var(--font-body);
+  line-height: 1.7;
+}
+
+/* ── Header ───────────────────────────────────────────────────── */
+.terms__header {
+  margin-block-end: var(--space-2xl);
+  padding-block-end: var(--space-lg);
+  border-block-end: 2px solid var(--border-brand);
+}
+
+.terms__eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-block-end: var(--space-xs);
+}
+
+.terms__title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--text-heading);
+  line-height: 1.2;
+  margin-block-end: var(--space-sm);
+}
+
+.terms__subtitle {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+/* ── Section list ─────────────────────────────────────────────── */
+.terms__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+.terms__item {
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  gap: var(--space-md);
+  align-items: baseline;
+}
+
+.terms__number {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--color-error);
+  line-height: 1.5;
+  text-align: right;
+}
+
+.terms__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.terms__body h2 {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--text-heading);
+  margin: 0;
+}
+
+.terms__body p {
+  font-size: var(--text-sm);
+  color: var(--text-body);
+  margin: 0;
+}
+
+/* Deposit table inside item 1 */
+.terms__deposit-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: var(--text-sm);
+}
+
+.terms__deposit-table th,
+.terms__deposit-table td {
+  text-align: left;
+  padding: var(--space-xs) var(--space-sm);
+  border-block-end: 1px solid var(--border-subtle);
+}
+
+.terms__deposit-table th {
+  font-weight: 600;
+  color: var(--text-heading);
+  background: var(--bg-surface-alt);
+}
+
+.terms__deposit-table td {
+  color: var(--text-body);
+}
+
+/* ── Back link ────────────────────────────────────────────────── */
+.terms__back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  text-decoration: none;
+  margin-block-end: var(--space-xl);
+  transition: color var(--transition-fast);
+}
+
+.terms__back:hover {
+  color: var(--text-brand);
+}
+
+.terms__back svg {
+  width: 16px;
+  height: 16px;
+}

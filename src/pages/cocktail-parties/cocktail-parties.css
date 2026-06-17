@@ -1,0 +1,14 @@
+/* ================================================================
+   COCKTAIL-PARTIES PAGE — page-scoped styles
+   Owner: src/pages/cocktail-parties/index.astro
+   Scope: only matches elements rendered by this page.
+   ================================================================ */
+
+.sp-pkg {
+  width: 100%;
+  max-width: 1100px;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+}

@@ -1,0 +1,344 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const title = "Sean Patrick's Emerald Isle";
+const description = "Buffalo wedding venues, banquet halls, great dining and cozy bar. Sean Patrick";
+const loadMap = true;
+---
+
+<BaseLayout title={title} description={description} loadMap={loadMap}>
+<div class="sp-page">
+  <section class="sp-hero">
+    <div class="sp-hero__media">
+      <img
+        class="sp-hero__image"
+        src="img/header-bg.jpg"
+        alt="Sean Patrick's restaurant exterior"
+      />
+    </div>
+
+    <div class="sp-hero__overlay">
+      <div class="sp-hero__card sp-hero__card--primary">
+        <h1 class="sp-hero__title">Now Hiring</h1>
+        <p class="sp-hero__phone">Call Today: 716-636-1709</p>
+      </div>
+
+      <div class="sp-hero__card sp-hero__card--secondary">
+        <p class="sp-hero__notice">
+          For Your Convenience,<br />
+          we've added Online Ordering.
+        </p>
+        <p class="sp-hero__notice">
+          Now available for pick up orders.<br />
+          Pay with your credit card online.<br />
+          Mon-Thurs 11:30 - 8:30 (Fri/Sat 9:30)
+        </p>
+        <a class="sp-hero__button" href="https://seanpatricks.namer.alohaonlineordering.com">Get Started</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sp-welcome section">
+    <div class="sp-welcome__card">
+
+      <!-- ── Left: display heading ──────────────────────────────── -->
+      <div class="sp-welcome__identity">
+        <h2 class="sp-welcome__heading">Cead Mile Failte</h2>
+        <div class="sp-welcome__bar" aria-hidden="true"></div>
+        <p class="sp-welcome__translation">A hundred thousand welcomes</p>
+      </div>
+
+      <!-- ── Right: restaurant history ─────────────────────────── -->
+      <div class="sp-welcome__body">
+        <p class="sp-welcome__p">
+          Originally the premises was called The Pine Lodge, noted for the pine trees in front of
+          the building. Purchased by Richard and Carol Lillis in 1966 who worked in the tavern,
+          a popular night spot for many years.
+        </p>
+        <p class="sp-welcome__p">
+          Their son, Sean Lillis, became involved in 1975 and completely renovated the building
+          in 1991, renaming the business Sean Patrick's Restaurant. Having received many requests
+          from loyal customers for larger facilities, in 2000, he constructed a new bar area with
+          seating and a beautiful banquet room named The Emerald Isle, serving up to 230 people.
+        </p>
+        <p class="sp-welcome__p">
+          Hard work, long hours, and a quality staff have made Sean Patrick's and The Emerald Isle
+          successful. We hope your visit with us will be a pleasurable dining experience. We're
+          here to fulfill all of your dining needs, from breakfast, lunch, dinner, weddings, showers,
+          birthday parties and all special occasions. We plan to serve you, our customers, for many
+          years to come.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+<section class="sp-about section">
+    <!-- ── Leader: wide top passage ──────────────────────────────── -->
+    <article class="sp-about__passage sp-about__leader">
+      <h2 class="sp-about__passage-title">Our Company</h2>
+      <p class="sp-about__passage-body">
+        Customer service is our priority. Our Restaurant and Banquet staff have years of experience
+        planning and executing beautiful Buffalo Banquets. Our Banquets run so smoothly because of
+        the design of our facility.
+      </p>
+      <p class="sp-about__passage-body">
+        It's an easy process from first booking through coffee and clean up. Sean or owner puts his
+        personal care into each banquet, from the beginning preparations all the way through the service.
+      </p>
+    </article>
+
+    <!-- ── 3-column grid ──────────────────────────────────────────── -->
+    <div class="sp-about__grid">
+
+      <article class="sp-about__passage">
+        <h3 class="sp-about__passage-title">Families First</h3>
+        <p class="sp-about__passage-body">
+          Here at Sean Patrick's Restaurant and Banquet Facility we put family first. We are a family
+          owned business with heart. From our full service restaurant and bar to our private banquet
+          rooms we pride ourselves on our warm family environment.
+        </p>
+      </article>
+
+      <article class="sp-about__passage">
+        <h3 class="sp-about__passage-title">The Ball Room</h3>
+        <p class="sp-about__passage-body">
+          Our Ballroom can accommodate banquets as large as 230 guests. Our Banquet room can be divided
+          in half accommodating between 30 and 100 guests in each half. The Garden Room is more intimate
+          and perfect for showers between 30 and 50 guests.
+        </p>
+      </article>
+
+      <article class="sp-about__passage">
+        <h3 class="sp-about__passage-title">Banquets</h3>
+        <p class="sp-about__passage-body">
+          We have a wide range of banquet menu options offering sit down and buffet options for luncheons
+          and dinners. We can plan birthdays, holiday gatherings, showers, rehearsals, meetings, bar
+          parties, and full service weddings.
+        </p>
+      </article>
+
+    </div>
+
+  </section>
+  
+ <section class="sp-faq" style="margin: 0 auto;">
+    <div class="sp-faq__card">
+
+      <!-- ── Header ─────────────────────────────────────────────── -->
+      <div class="sp-faq__header">
+        <h2 class="sp-faq__heading">Frequently Asked Questions</h2>
+        <p class="sp-faq__subheading">Everything you need to know before booking.</p>
+      </div>
+
+      <!-- ── Filter switcher ────────────────────────────────────── -->
+      <div
+        class="sp-faq__filters"
+        role="group"
+        aria-label="Filter questions by category"
+      >
+        <button
+          class="sp-faq__filter-btn sp-faq__filter-btn--active"
+          data-filter="all"
+          aria-pressed="true"
+        >All</button>
+        <button
+          class="sp-faq__filter-btn"
+          data-filter="banquet"
+          aria-pressed="false"
+        >Banquet Rooms</button>
+        <button
+          class="sp-faq__filter-btn"
+          data-filter="addons"
+          aria-pressed="false"
+        >Add-ons & Fees</button>
+      </div>
+
+      <!-- ── FAQ groups ──────────────────────────────────────────── -->
+      <div class="sp-faq__groups">
+
+        <!-- Banquet Room Questions -->
+        <div class="sp-faq__group" data-category="banquet">
+          <p class="sp-faq__group-heading">Banquet Rooms</p>
+
+          <details class="sp-faq__item">
+            <summary class="sp-faq__question">
+              How many guests can your ballroom accommodate?
+              <span class="sp-faq__chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="sp-faq__answer">
+              <p>We can host parties of up to 230 guests.</p>
+            </div>
+          </details>
+
+          <details class="sp-faq__item">
+            <summary class="sp-faq__question">
+              How many private party rooms do you have?
+              <span class="sp-faq__chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="sp-faq__answer">
+              <p>We have three banquet rooms. The County Clare Room holds 35–100 guests. The County Mayo Room holds 35–100 guests. These two rooms combine to create our full Ballroom that seats 230. We also have The Garden Room for 30–35 guests.</p>
+            </div>
+          </details>
+
+          <details class="sp-faq__item">
+            <summary class="sp-faq__question">
+              Do you require a minimum number of guests for a private room?
+              <span class="sp-faq__chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="sp-faq__answer">
+              <p>Yes — you must guarantee a minimum of 35 adult guests to secure a private banquet room.</p>
+            </div>
+          </details>
+
+          <details class="sp-faq__item">
+            <summary class="sp-faq__question">
+              What if I don't have 35 adults?
+              <span class="sp-faq__chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="sp-faq__answer">
+              <p>Parties fewer than 30 adults can be accommodated in the main restaurant from our regular menu, though privacy cannot always be guaranteed.</p>
+            </div>
+          </details>
+
+          <details class="sp-faq__item">
+            <summary class="sp-faq__question">
+              Can I put a tentative hold on a banquet room?
+              <span class="sp-faq__chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="sp-faq__answer">
+              <p>Yes — we can hold a room for 10 days. At that point we ask for a $100 deposit to secure it. For weddings, a $400 deposit is required at the 10-day mark.</p>
+            </div>
+          </details>
+
+          <details class="sp-faq__item">
+            <summary class="sp-faq__question">
+              What forms of payment do you accept for banquets?
+              <span class="sp-faq__chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="sp-faq__answer">
+              <p>We accept cash or check for banquet deposits. Credit cards are not accepted for banquet payments. Weddings must be paid by certified bank check.</p>
+            </div>
+          </details>
+        </div>
+
+        <!-- Add-ons & Extra Fees -->
+        <div class="sp-faq__group" data-category="addons">
+          <p class="sp-faq__group-heading">Add-ons & Fees</p>
+
+          <details class="sp-faq__item">
+            <summary class="sp-faq__question">
+              Do you charge banquet room rental or clean-up fees?
+              <span class="sp-faq__chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="sp-faq__answer">
+              <p>No room rental or clean-up fees. You pay for your party package, plus 8.75% tax and 20% gratuity.</p>
+            </div>
+          </details>
+
+          <details class="sp-faq__item">
+            <summary class="sp-faq__question">
+              Do you have cake cutting fees?
+              <span class="sp-faq__chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="sp-faq__answer">
+              <p>No. You're welcome to bring in a cake or cupcakes from a bakery of your choosing. Our staff will happily portion and serve it to your guests.</p>
+            </div>
+          </details>
+
+          <details class="sp-faq__item">
+            <summary class="sp-faq__question">
+              What about gratuity and tax?
+              <span class="sp-faq__chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="sp-faq__answer">
+              <p>20% gratuity and 8.75% sales tax will be added to your party package total.</p>
+            </div>
+          </details>
+        </div>
+
+      </div><!-- /.sp-faq__groups -->
+    </div><!-- /.sp-faq__card -->
+  </section>
+  
+  <section class="section bg-surface-alt" aria-labelledby="reviews-heading">
+    <div class="container">
+      <div class="reviews__header">
+        <h2 class="reviews__heading" id="reviews-heading">What our clients say about us.</h2>
+        <p class="reviews__subtext">Real words from real guests at Sean Patrick's Emerald Isle.</p>
+      </div>
+
+      <ul class="reviews__grid" role="list">
+
+        <li>
+          <article class="reviews__card">
+            <div class="reviews__stars" aria-label="5 out of 5 stars"><span aria-hidden="true">★★★★★</span></div>
+            <blockquote class="reviews__quote">
+              <p>Service like yours is difficult to find — I rarely use the word "perfect." But there is nothing I would change. Your staff was professional &amp; efficient, the food was outstanding, and people are telling me it was the best wedding they have ever attended!</p>
+            </blockquote>
+            <footer class="reviews__attribution">
+              <p class="reviews__name">Lynn</p>
+              <p class="reviews__event">Wedding Reception</p>
+            </footer>
+          </article>
+        </li>
+
+        <li>
+          <article class="reviews__card">
+            <div class="reviews__stars" aria-label="5 out of 5 stars"><span aria-hidden="true">★★★★★</span></div>
+            <blockquote class="reviews__quote">
+              <p>We celebrated our 50th anniversary at Sean Patrick's and it was wonderful. Your staff was so obliging, efficient, and capable. The food was superb and the setting was gorgeous. All comments — and there were many — were in the superlative.</p>
+            </blockquote>
+            <footer class="reviews__attribution">
+              <p class="reviews__name">Lee &amp; Joan</p>
+              <p class="reviews__event">50th Wedding Anniversary</p>
+            </footer>
+          </article>
+        </li>
+
+        <li>
+          <article class="reviews__card">
+            <div class="reviews__stars" aria-label="5 out of 5 stars"><span aria-hidden="true">★★★★★</span></div>
+            <blockquote class="reviews__quote">
+              <p>The food was marvellous, the salads full of a nice mix, and the sandwich servings tasty and generous. The potato soup was delicious, as were the sundaes. You certainly have a staff of whom you can be very proud.</p>
+            </blockquote>
+            <footer class="reviews__attribution">
+              <p class="reviews__name">Joyce &amp; Roy</p>
+              <p class="reviews__event">Special Gathering</p>
+            </footer>
+          </article>
+        </li>
+
+        <li>
+          <article class="reviews__card">
+            <div class="reviews__stars" aria-label="5 out of 5 stars"><span aria-hidden="true">★★★★★</span></div>
+            <blockquote class="reviews__quote">
+              <p>We are so happy we chose Sean Patrick's! From the staff and service to the delicious food and decor — everything was amazing. All of our guests raved and many said it was the best reception they had ever attended.</p>
+            </blockquote>
+            <footer class="reviews__attribution">
+              <p class="reviews__name">Jen &amp; Ashton</p>
+              <p class="reviews__event">Wedding Reception</p>
+            </footer>
+          </article>
+        </li>
+
+        <li>
+          <article class="reviews__card">
+            <div class="reviews__stars" aria-label="5 out of 5 stars"><span aria-hidden="true">★★★★★</span></div>
+            <blockquote class="reviews__quote">
+              <p>Just a quick note to let you know how pleased I was with everything. Your team was so easy to work with, the service was excellent, and the food was outstanding. I look forward to doing business with you again.</p>
+            </blockquote>
+            <footer class="reviews__attribution">
+              <p class="reviews__name">Judy</p>
+              <p class="reviews__event">Private Event</p>
+            </footer>
+          </article>
+        </li>
+
+      </ul>
+    </div>
+  </section>
+
+  
+</div>
+
+</BaseLayout>

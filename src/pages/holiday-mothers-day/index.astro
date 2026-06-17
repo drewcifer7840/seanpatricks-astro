@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import MenuPackage from '../../components/MenuPackage.astro';
+import { getEntry } from 'astro:content';
+import './holiday-mothers-day.css';
+
+const title = "Mother's Day Brunch — Sean Patrick's Emerald Isle";
+const description = "Join us for our Mother's Day Brunch at Sean Patrick";
+const loadMap = true;
+
+const entry = await getEntry('menus', 'holiday-mothers-day');
+if (!entry) throw new Error('Missing menu content: src/content/menus/holiday-mothers-day.md');
+const { data } = entry;
+---
+
+<BaseLayout title={title} description={description} loadMap={loadMap}>
+  <div class="sp-pkg">
+    {data.packages.map((pkg, i) => <MenuPackage pkg={pkg} isFirst={i === 0} compact={pkg.compact} />)}
+  </div>
+</BaseLayout>

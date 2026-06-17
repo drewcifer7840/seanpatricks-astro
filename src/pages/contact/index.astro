@@ -1,0 +1,122 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import './contact.css';
+const title = "Contact Us — Sean Patrick's Emerald Isle";
+const description = "Contact Sean Patrick";
+const loadMap = true;
+---
+
+<BaseLayout title={title} description={description} loadMap={loadMap}>
+<section class="sp-contact-page" aria-labelledby="contact-heading">
+
+  <!-- Dark top band -->
+  <div class="sp-contact-page__bg" aria-hidden="true"></div>
+
+  <div class="sp-contact-page__inner">
+
+    <!-- Header -->
+    <header class="sp-contact-page__header">
+      <p class="sp-contact-page__tagline">Get in Touch</p>
+      <h1 class="sp-contact-page__heading" id="contact-heading">Contact Sean Patrick's</h1>
+      <p class="sp-contact-page__desc">Reservations, banquet inquiries, catering questions — we'd love to hear from you. Reach us directly or send a message below.</p>
+    </header>
+
+    <!-- Grid: info cards + form -->
+    <div class="sp-contact-page__grid">
+
+      <!-- Info cards -->
+      <ul class="sp-contact-page__info-list" aria-label="Contact information">
+
+        <li class="sp-contact-page__card">
+          <div class="sp-contact-page__card-header">
+            <svg class="sp-contact-page__card-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+            </svg>
+            <h2 class="sp-contact-page__card-title">Email</h2>
+          </div>
+          <p class="sp-contact-page__card-desc">For general inquiries and banquet planning, email us anytime.</p>
+          <a href="mailto:seanpatricks@hotmail.com" class="sp-contact-page__card-link">seanpatricks@hotmail.com</a>
+        </li>
+
+        <li class="sp-contact-page__card">
+          <div class="sp-contact-page__card-header">
+            <svg class="sp-contact-page__card-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.78a16 16 0 0 0 6 6l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16z"/>
+            </svg>
+            <h2 class="sp-contact-page__card-title">Phone</h2>
+          </div>
+          <p class="sp-contact-page__card-desc">Give us a call during business hours to speak with our staff directly.</p>
+          <a href="tel:+17166361709" class="sp-contact-page__card-link">716-636-1709</a>
+        </li>
+
+        <li class="sp-contact-page__card">
+          <div class="sp-contact-page__card-header">
+            <svg class="sp-contact-page__card-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+            </svg>
+            <h2 class="sp-contact-page__card-title">Location</h2>
+          </div>
+          <p class="sp-contact-page__card-desc">We're located in Getzville, just north of Buffalo.</p>
+          <a href="https://maps.google.com/?q=3480+Millersport+Highway+Getzville+NY+14068" target="_blank" rel="noopener" class="sp-contact-page__card-link">3480 Millersport Hwy, Getzville NY</a>
+        </li>
+
+      </ul>
+
+      <!-- Form card -->
+      <div class="sp-contact-page__form-card">
+        <form class="sp-contact-page__form"
+          action="https://formsubmit.co/4b182b45846e1a37f00a25ef4ecd877d"
+          method="POST">
+
+          <!-- formsubmit.co config -->
+          <input type="hidden" name="_cc"      value="drewcifer7840@gmail.com">
+          <input type="hidden" name="_subject" value="New contact form message — Sean Patrick's">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_next"    value="https://www.spatricks.com/contact.html?sent=1">
+
+          <div class="sp-contact-page__row">
+            <div class="sp-contact-page__field">
+              <label class="sp-contact-page__label" for="cp-name">Name</label>
+              <input class="sp-contact-page__input" id="cp-name" type="text" name="name" placeholder="Your name" required>
+            </div>
+            <div class="sp-contact-page__field">
+              <label class="sp-contact-page__label" for="cp-phone">Phone</label>
+              <input class="sp-contact-page__input" id="cp-phone" type="tel" name="phone" placeholder="716-000-0000">
+            </div>
+          </div>
+
+          <div class="sp-contact-page__field">
+            <label class="sp-contact-page__label" for="cp-email">Email</label>
+            <input class="sp-contact-page__input" id="cp-email" type="email" name="email" placeholder="your@email.com" required>
+          </div>
+
+          <div class="sp-contact-page__field">
+            <label class="sp-contact-page__label" for="cp-inquiry">Type of Inquiry</label>
+            <select class="sp-contact-page__input" id="cp-inquiry" name="inquiry_type">
+              <option value="" disabled selected>Select one…</option>
+              <option value="dining">Dining Reservation</option>
+              <option value="banquet">Banquet / Event</option>
+              <option value="catering">Off-Site Catering</option>
+              <option value="private-party">Private Party Room</option>
+              <option value="other">General Question</option>
+            </select>
+          </div>
+
+          <div class="sp-contact-page__field">
+            <label class="sp-contact-page__label" for="cp-message">Message</label>
+            <textarea class="sp-contact-page__textarea" id="cp-message" name="message" placeholder="Tell us what you need…" required></textarea>
+          </div>
+
+          <label class="sp-contact-page__checkbox-label">
+            <input type="checkbox" name="privacy_accepted" required>
+            I have read and accept the <a href="#">Privacy Policy</a>.
+          </label>
+
+          <button class="sp-contact-page__submit" type="submit">Send Message</button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+</BaseLayout>

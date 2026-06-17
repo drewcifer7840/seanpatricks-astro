@@ -1,0 +1,82 @@
+/* ================================================================
+   ABOUT PAGE — page-scoped styles
+   Owner: src/pages/about/index.astro
+   Scope: only matches elements rendered by this page.
+   ================================================================ */
+
+.sp-about-page {
+  padding-block: var(--space-2xl);
+  padding-inline: var(--space-md);
+}
+
+.sp-about {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.sp-about__page-header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+  margin-block-end: var(--space-lg);
+}
+
+.sp-about__tagline {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.sp-about__page-heading {
+  font-size: var(--text-2xl);
+  color: var(--text-brand);
+  margin: 0;
+}
+
+/* ── Shared passage block ─────────────────────────────────────── */
+.sp-about__passage {
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  border-top: 3px solid var(--border-brand);
+}
+
+.sp-about__passage-title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--text-brand);
+  margin-block-end: var(--space-sm);
+  line-height: 1.2;
+}
+
+.sp-about__passage-body {
+  font-size: var(--text-base);
+  color: var(--text-main);
+  line-height: 1.7;
+}
+
+.sp-about__passage-body + .sp-about__passage-body {
+  margin-block-start: var(--space-sm);
+}
+
+/* ── Grid: 3 equal columns ────────────────────────────────────── */
+.sp-about__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+}
+
+@media (max-width: 768px) {
+  .sp-about__grid {
+    grid-template-columns: 1fr;
+  }
+}

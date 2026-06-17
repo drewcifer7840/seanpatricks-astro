@@ -1,0 +1,32 @@
+/* ================================================================
+   DINNER-MENU PAGE — page-scoped styles
+   Owner: src/pages/dinner-menu/index.astro
+   Scope: only matches elements rendered by this page.
+   ================================================================ */
+
+.sp-menu {
+  width: 100%;
+  max-width: 1100px;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+}
+
+.sp-menu__page-heading {
+  text-align: center;
+}
+
+.sp-menu__title {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  color: var(--text-brand);
+  line-height: 1.1;
+}
+
+.sp-menu__subtitle {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  margin-block-start: var(--space-xs);
+}

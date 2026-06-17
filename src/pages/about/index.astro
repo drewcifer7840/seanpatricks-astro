@@ -1,0 +1,75 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import './about.css';
+
+const title = "About Us — Sean Patrick's Emerald Isle";
+const description = "About Sean Patrick";
+const loadMap = true;
+---
+
+<BaseLayout title={title} description={description} loadMap={loadMap}>
+<main>
+  <div class="sp-about-page">
+    <section class="sp-about" aria-labelledby="about-heading">
+
+      <header class="sp-about__page-header">
+        <p class="sp-about__tagline">Our Story</p>
+        <h1 class="sp-about__page-heading" id="about-heading">About Sean Patrick's</h1>
+      </header>
+
+      <!-- Leader: wide top passage -->
+      <article class="sp-about__passage">
+        <h2 class="sp-about__passage-title">Our Company</h2>
+        <p class="sp-about__passage-body">
+          Customer service is our priority. Our Restaurant and Banquet staff have years of experience
+          planning and executing beautiful Buffalo banquets. Our events run so smoothly because of
+          the design of our facility.
+        </p>
+        <p class="sp-about__passage-body">
+          It's an easy process from first booking through coffee and clean up. Sean puts his
+          personal care into each banquet, from the beginning preparations all the way through the service.
+        </p>
+        <p class="sp-about__passage-body">
+          Purchased by Richard and Carol Lillis in 1966, the building was expanded over the years
+          as the family business grew. In 2000, a new bar area and The Emerald Isle banquet room
+          were added — now serving up to 230 guests. Hard work, a quality staff, and a genuine
+          commitment to hospitality have made Sean Patrick's a Buffalo landmark for nearly six decades.
+        </p>
+      </article>
+
+      <!-- 3-column grid -->
+      <div class="sp-about__grid">
+
+        <article class="sp-about__passage">
+          <h3 class="sp-about__passage-title">Families First</h3>
+          <p class="sp-about__passage-body">
+            Here at Sean Patrick's Restaurant and Banquet Facility we put family first. We are a family
+            owned business with heart. From our full service restaurant and bar to our private banquet
+            rooms, we pride ourselves on our warm, welcoming environment.
+          </p>
+        </article>
+
+        <article class="sp-about__passage">
+          <h3 class="sp-about__passage-title">The Ballroom</h3>
+          <p class="sp-about__passage-body">
+            Our Ballroom accommodates banquets as large as 230 guests. It can be divided in half,
+            accommodating between 35 and 100 guests in each section. The Garden Room is more intimate
+            and perfect for showers between 30 and 50 guests.
+          </p>
+        </article>
+
+        <article class="sp-about__passage">
+          <h3 class="sp-about__passage-title">Banquets</h3>
+          <p class="sp-about__passage-body">
+            We offer a wide range of banquet menu options — sit down and buffet — for luncheons
+            and dinners. Birthdays, holiday gatherings, showers, rehearsals, meetings, cocktail
+            parties, and full service weddings. We handle it all.
+          </p>
+        </article>
+
+      </div>
+
+    </section>
+  </div>
+</main>
+</BaseLayout>

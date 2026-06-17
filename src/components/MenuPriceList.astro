@@ -1,0 +1,78 @@
+---
+/**
+ * MenuPriceList.astro
+ * -------------------
+ * A two-column (auto-fit) grid of compact name+price rows.
+ * Used for the drinks-menu beer sections (Draft Beer, Bottled Beer).
+ *
+ * Props:
+ *   columns — array of { items: [{ name, price }] } — one column per entry.
+ *
+ * Each column is rendered as a single rounded card with the items
+ * stacked as ledger rows. No descriptions, no badges, no signatures.
+ * Just name + price.
+ */
+
+interface Column {
+  items: { name: string; price: string }[];
+}
+
+interface Props {
+  columns: Column[];
+}
+
+const { columns } = Astro.props;
+---
+
+<div class="sp-menu__pricelist-grid">
+  {columns.map((col) => (
+    <div class="sp-menu__pricelist">
+      {col.items.map((row) => (
+        <div class="sp-menu__pricelist-row">
+          <span class="sp-menu__pricelist-name">{row.name}</span>
+          <span class="sp-menu__pricelist-price">{row.price}</span>
+        </div>
+      ))}
+    </div>
+  ))}
+</div>
+
+<style>
+  .sp-menu__pricelist-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-md);
+  }
+
+  .sp-menu__pricelist {
+    background: var(--bg-surface);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .sp-menu__pricelist-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+    border-block-end: 1px solid var(--border-light);
+  }
+
+  .sp-menu__pricelist-row:last-child {
+    border-block-end: none;
+  }
+
+  .sp-menu__pricelist-name {
+    font-size: var(--text-sm);
+    color: var(--text-main);
+    font-weight: 600;
+  }
+
+  .sp-menu__pricelist-price {
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--text-brand);
+    flex-shrink: 0;
+  }
+</style>

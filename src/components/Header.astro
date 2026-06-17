@@ -1,0 +1,143 @@
+---
+/**
+ * Header.astro
+ * ------------
+ * Site header with primary navigation. Includes:
+ *   - Logo
+ *   - Desktop nav with two dropdowns (Our Menus, Banquets & Events)
+ *   - Mobile off-canvas toggle button
+ *   - Backdrop element for mobile menu
+ *
+ * Behavior (sticky scroll, dropdown, mobile off-canvas) is handled
+ * by /js/nav.js which is loaded globally in BaseLayout.
+ */
+
+const { pathname } = Astro.url;
+const isHome = pathname === '/' || pathname === '/index' || pathname.endsWith('index.html');
+---
+
+<header class="header-wrapper" id="main-header">
+  <div class="header">
+    <div class="header__container">
+
+      <a href="/" aria-label="Homepage" class="header__logo">
+        <img src="/img/logo3.jpg" alt="Sean Patrick's Logo" style="height: 52px; width: auto;" />
+      </a>
+
+      <div id="menu-wrapper" class="menu-wrapper desktop">
+        <div class="menu-wrapper__inner">
+          <nav class="nav">
+            <ul class="nav__list">
+
+              <li class={`menu-link ${isHome ? 'is-active' : ''}`}>
+                <a href="/">Home</a>
+              </li>
+
+              <li class={`menu-link ${pathname.endsWith('/about') || pathname.endsWith('about.html') ? 'is-active' : ''}`}>
+                <a href="/about">About</a>
+              </li>
+
+              <li class="menu-dropdown">
+                <button class="menu-dropdown__trigger" aria-expanded="false" aria-controls="dropdown-menus">
+                  <span class="menu-dropdown__trigger-label">Our Menus</span>
+                  <div class="menu-dropdown__trigger-icon-wrapper">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M6 9L12 15L18 9" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </div>
+                </button>
+
+                <div id="dropdown-menus" class="menu-dropdown__content-wrapper">
+                  <button class="menu-dropdown-back-button" aria-label="Back to Main Menu">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M15 6L9 12L15 18" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <span class="menu-dropdown-back-button__label">Main Menu</span>
+                  </button>
+                  <ul class="menu-dropdown__content">
+                    <li class="menu-link"><a href="/lunch-menu">Lunch Menu</a></li>
+                    <li class="menu-link"><a href="/dinner-menu">Dinner Menu</a></li>
+                    <li class="menu-link"><a href="/drinks-menu">Drink List</a></li>
+                    <li class="menu-link"><a href="/catering">Catering</a></li>
+                  </ul>
+                </div>
+              </li>
+
+              <li class="menu-dropdown" data-mega-menu="true">
+                <button class="menu-dropdown__trigger" aria-expanded="false" aria-controls="dropdown-mega">
+                  <span class="menu-dropdown__trigger-label">Banquets &amp; Events</span>
+                  <div class="menu-dropdown__trigger-icon-wrapper">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M6 9L12 15L18 9" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </div>
+                </button>
+
+                <div id="dropdown-mega" class="menu-dropdown__content-wrapper">
+                  <button class="menu-dropdown-back-button" aria-label="Back to Main Menu">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M15 6L9 12L15 18" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <span class="menu-dropdown-back-button__label">Main Menu</span>
+                  </button>
+
+                  <div class="menu-dropdown__content" style="width: 740px; padding: var(--space-lg);">
+                    <div class="grid-3">
+
+                      <div class="stack stack-sm">
+                        <p class="text-sm font-bold text-brand" style="text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--border-light); padding-bottom: var(--space-2xs);">Event Types</p>
+                        <ul class="stack stack-xs" style="gap: 0;">
+                          <li><a href="/wedding" style="padding-inline: 0; padding-block: var(--space-2xs);">Weddings &amp; Receptions</a></li>
+                          <li><a href="/banquet-cocktails" style="padding-inline: 0; padding-block: var(--space-2xs);">Cocktail Parties</a></li>
+                          <li><a href="/special-packages" style="padding-inline: 0; padding-block: var(--space-2xs);">Special Packages</a></li>
+                        </ul>
+                      </div>
+
+                      <div class="stack stack-sm">
+                        <p class="text-sm font-bold text-brand" style="text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--border-light); padding-bottom: var(--space-2xs);">Banquet Menus</p>
+                        <ul class="stack stack-xs" style="gap: 0;">
+                          <li><a href="/breakfast" style="padding-inline: 0; padding-block: var(--space-2xs);">Breakfast</a></li>
+                          <li><a href="/brunch-buffet" style="padding-inline: 0; padding-block: var(--space-2xs);">Brunch Buffet</a></li>
+                          <li><a href="/banquet-lunch" style="padding-inline: 0; padding-block: var(--space-2xs);">Lunch</a></li>
+                          <li><a href="/banquet-dinner" style="padding-inline: 0; padding-block: var(--space-2xs);">Dinner</a></li>
+                          <li><a href="/banquet-beverage" style="padding-inline: 0; padding-block: var(--space-2xs);">Beverage</a></li>
+                        </ul>
+                      </div>
+
+                      <div class="stack stack-sm">
+                        <p class="text-sm font-bold text-brand" style="text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--border-light); padding-bottom: var(--space-2xs);">Holidays</p>
+                        <ul class="stack stack-xs" style="gap: 0;">
+                          <li><a href="/holiday-mothers-day" style="padding-inline: 0; padding-block: var(--space-2xs);">Mother's Day</a></li>
+                          <li><a href="/holiday-st-patricks-day" style="padding-inline: 0; padding-block: var(--space-2xs);">St. Patrick's Day</a></li>
+                          <li><a href="/holiday-easter" style="padding-inline: 0; padding-block: var(--space-2xs);">Easter</a></li>
+                          <li><a href="/holiday-new-years-eve" style="padding-inline: 0; padding-block: var(--space-2xs);">New Year's Eve</a></li>
+                        </ul>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+              <li class={`menu-link ${pathname.endsWith('/gallery') || pathname.endsWith('gallery.html') ? 'is-active' : ''}`}>
+                <a href="/gallery">Gallery</a>
+              </li>
+
+              <li class={`menu-link ${pathname.endsWith('/contact') || pathname.endsWith('contact.html') ? 'is-active' : ''}`}>
+                <a href="/contact">Contact</a>
+              </li>
+
+            </ul>
+          </nav>
+        </div>
+
+        <div class="menu-wrapper-backdrop"></div>
+      </div>
+
+      <button id="open-menu-button" class="toggle" aria-label="Toggle Menu" aria-controls="menu-wrapper" aria-expanded="false">
+        <span></span>
+      </button>
+
+    </div>
+  </div>
+</header>

@@ -1,0 +1,93 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import MenuPackage from '../../components/MenuPackage.astro';
+
+const title = "Weddings &amp; Receptions — Sean Patrick's Emerald Isle";
+const description = undefined;
+const loadMap = true;
+
+const barNote = '<strong>Additional Hour Bar</strong>&ensp;(original head count) — $5.00 / Person';
+
+const openBarReception = [
+  'Fresh Fruit &amp; Cheese Display',
+  'Champagne Toast for Head Table',
+  '<strong>Choice of:</strong> Homemade Soup and Chef Salad with Parmesan Peppercorn and Italian Dressings',
+];
+
+const entreeUpgrades = [
+  { name: 'Filet', price: '+$7 / person' },
+  { name: 'NY Strip Steak', price: '+$5 / person' },
+  { name: 'Prime Rib', price: '+$7 / person' },
+  { name: 'Lobster Tail', price: 'Market Price' },
+  { name: 'Chicken &amp; Filet Combo', price: '+$11 / person' },
+];
+
+const vegetableSides = ['Glazed carrots', 'Vegetable medley', 'Green beans', 'Broccoli'];
+const potatoSides = ['Herb-roasted', 'Mashed', 'Baby red smashed', 'Parsley buttered', 'Cheesy potatoes'];
+
+const dinnerPackageOne = {
+  label: 'Dinner Package One',
+  isFirst: true,
+  price: '$62',
+  priceUnit: 'per person',
+  subSections: [
+    { title: 'Open Bar', items: ['4 Hour Open Bar'] },
+    { type: 'bar-note' as const, items: [barNote] },
+    { title: 'Reception', items: openBarReception },
+    { title: 'Dinner', items: ['<strong>Choice of:</strong> Dinner Buffet or 3 Dinner Entrees'] },
+    { title: 'Entree Upgrades', type: 'pricelist' as const, columns: [{ items: entreeUpgrades }] },
+    { title: 'Vegetable — Choice of One', type: 'sides' as const, items: vegetableSides },
+    { title: 'Potato — Choice of One', type: 'sides' as const, items: potatoSides },
+    {
+      title: 'Dessert &amp; Beverages',
+      items: ['Warm rolls with butter', 'Ice Cream with choice of topping or Sherbet', 'Freshly brewed Coffee, Decaf, Tea'],
+    },
+  ],
+};
+
+const dinnerPackageTwo = {
+  label: 'Dinner Package Two',
+  price: '$72',
+  priceUnit: 'per person',
+  subSections: [
+    { title: 'Open Bar', items: ['4 Hour Open Bar'] },
+    { type: 'bar-note' as const, items: [barNote] },
+    {
+      title: 'Cocktail Hour',
+      items: [
+        'Fresh Fruit &amp; Cheese Display',
+        '2 Hot &amp; 2 Cold Hors D\'oeuvres, Presented Butler Style during Cocktail Hour',
+        'Any Seafood Item — <strong>$3.00 / Person</strong>',
+        'Champagne Toast for All Guests',
+      ],
+    },
+    {
+      title: 'Dinner',
+      items: [
+        '<strong>Choice of:</strong> Homemade Soup and Chef Salad with Parmesan Peppercorn and Italian Dressings',
+        'Bottle of Red &amp; White Wine on Each Table',
+        '<strong>Choice of:</strong> Dinner Buffet or 3 Dinner Entrees',
+      ],
+    },
+    { title: 'Entree Upgrades', type: 'pricelist' as const, columns: [{ items: entreeUpgrades }] },
+    { title: 'Vegetable — Choice of One', type: 'sides' as const, items: vegetableSides },
+    { title: 'Potato — Choice of One', type: 'sides' as const, items: potatoSides },
+    {
+      title: 'Dessert &amp; Beverages',
+      items: [
+        'Warm rolls with butter',
+        'Ice Cream with choice of topping or Sherbet',
+        'Freshly brewed Coffee, Decaf, Tea &amp; Late Night Coffee Station with Dessert Tray and Your Wedding Cake',
+      ],
+    },
+  ],
+};
+
+const packages = [dinnerPackageOne, dinnerPackageTwo];
+---
+
+<BaseLayout title={title} loadMap={loadMap}>
+<div class="sp-pkg">
+  {packages.map((pkg, i) => <MenuPackage pkg={pkg} isFirst={i === 0} />)}
+</div>
+</BaseLayout>

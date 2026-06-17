@@ -1,0 +1,15 @@
+/* ================================================================
+   HOLIDAY-EASTER PAGE — page-scoped styles
+   Owner: src/pages/holiday-easter/index.astro
+   Scope: only matches elements rendered by this page.
+   ================================================================ */
+
+.sp-pkg {
+  width: 100%;
+  max-width: 1100px;
+  margin-inline: auto;
+  padding: var(--space-2xl) var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+}

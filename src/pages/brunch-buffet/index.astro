@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import MenuPackage from '../../components/MenuPackage.astro';
+
+const title = "Brunch Buffet — Sean Patrick's Emerald Isle";
+const description = undefined;
+const loadMap = true;
+
+const packages = [
+  {
+    label: 'Brunch Buffet',
+    isFirst: true,
+    meta: 'Served until 3:30',
+    prices: [
+      { amount: '$27', unit: 'per person' },
+      { amount: '$27', unit: 'Ages 4-10' },
+    ],
+    ruleNote: 'Minimum 35 Guests',
+    subSections: [
+      {
+        title: 'Buffet Selections',
+        items: [
+          'Chef Salad',
+          'Penne Pasta with Broccoli or House Red Sauce',
+          'Assorted Bakery Selections or Fresh Fruit Bowl',
+          'Two Carved Meats: Top Round of Beef, Roasted Breast of Turkey, Baked Ham, Roast Pork Loin or Chicken Ala King with homemade biscuits',
+          'Scrambled Eggs, Bacon or Sausage',
+          'Breakfast Potatoes or Mashed Potatoes',
+          'Coffee, Decaf, Tea',
+        ],
+      },
+      {
+        title: 'Additional Breakfast Options',
+        type: 'extras' as const,
+        price: '$3.00 Per Person',
+        items: [
+          'French Toast with warm syrup',
+          'Buttermilk Pancakes with Warm Syrup',
+          'Fresh Fruit or Bakery Selections',
+        ],
+      },
+    ],
+  },
+];
+---
+
+<BaseLayout title={title} loadMap={loadMap}>
+<div class="sp-pkg">
+  {packages.map((pkg, i) => <MenuPackage pkg={pkg} isFirst={i === 0} />)}
+</div>
+</BaseLayout>

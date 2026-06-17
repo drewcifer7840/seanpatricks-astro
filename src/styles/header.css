@@ -1,0 +1,493 @@
+/* ================================================================
+   ETCH NAV COMPONENT - Mapped to system.css
+   ================================================================ */
+
+/* 1. VARIABLE MAPPING (The Bridge)
+   Here we map his component variables to your OKLCH system 
+*/
+.header-wrapper {
+  /* Link Variables */
+  --link-color: var(--text-main);
+  --link-color-hover: var(--text-brand);
+  --link-color-active: var(--link-color-hover);
+  --link-bg-color: transparent;
+  --link-bg-color-hover: var(--bg-surface-alt);
+  --link-bg-color-active: var(--link-bg-color-hover);
+  --link-font-weight: 600;
+  --link-transition: all 0.2s ease-out;
+  --link-padding-inline: var(--space-md);
+  --link-padding-block: var(--space-xs);
+  --link-border-radius: var(--radius-md);
+
+  /* Dropdown Variables */
+  --dropdown-padding: var(--space-xs);
+  --dropdown-border-radius: var(--radius-md);
+  --dropdown-border-width: 1px;
+  --dropdown-border-color: var(--border-light);
+  --dropdown-bg: var(--bg-surface);
+  --dropdown-box-shadow: var(--shadow-md);
+  
+  --dropdown-link-min-border-radius: var(--radius-sm);
+  --dropdown-link-padding-block: var(--space-xs);
+  --dropdown-link-padding-inline: var(--space-sm);
+  --dropdown-link-font-weight: 500;
+  --dropdown-link-color: var(--text-main);
+  --dropdown-link-color-hover: var(--text-brand);
+  --dropdown-link-bg-color: transparent;
+  --dropdown-link-bg-color-hover: var(--bg-surface-alt);
+
+  /* Dropdown Animation Starts */
+  --dropdown-closed-top: calc(var(--space-md) + 20px);
+  --dropdown-open-top: calc(var(--space-md) + 5px);
+
+  /* Mobile Variables */
+  --mobile-menu-padding-inline: var(--space-md);
+  --mobile-menu-padding-block: var(--space-md);
+  --mobile-menu-bg-color: var(--bg-surface);
+  --mobile-menu-width: 400px;
+  --mobile-menu-transition-duration: 0.3s;
+  
+  /* Toggle / Hamburger Variables */
+  --toggle-icon-color: var(--text-main);
+  --toggle-icon-size: 2rem;
+  --toggle-icon-line-width: 6px;
+  
+  /* Layout */
+  z-index: 50;
+  pointer-events: none; /* Allows clicking through empty space */
+}
+
+/* Re-enable pointer events for actual header contents */
+.header-wrapper > * { pointer-events: auto; }
+
+/* ────────────────────────────────────────────────────────────────
+   2. STRUCTURAL CSS (Kept from original, modified to fit)
+   ──────────────────────────────────────────────────────────────── */
+
+/* The Header Bar */
+.header {
+  padding-inline: var(--space-md);
+  padding-block: var(--space-sm);
+  width: 100%;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.header__container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px; /* Matched to your container */
+  margin-inline: auto;
+}
+
+/* Nav Lists */
+.nav__list {
+  display: flex;
+  flex-direction: row;
+  gap: 0.2rem;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Desktop Link Styling */
+.menu-wrapper.desktop .nav__list > li > a,
+.menu-wrapper.desktop .nav__list > li > button {
+  color: var(--link-color);
+  background: var(--link-bg-color);
+  border-radius: var(--link-border-radius);
+  padding: var(--link-padding-block) var(--link-padding-inline);
+  font-weight: var(--link-font-weight);
+  transition: var(--link-transition);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.menu-wrapper.desktop .nav__list > li > a:hover,
+.menu-wrapper.desktop .nav__list > li > button:hover {
+  background-color: var(--link-bg-color-hover);
+  color: var(--link-color-hover);
+}
+
+/* ────────────────────────────────────────────────────────────────
+   3. DROPDOWN LOGIC (The Magic)
+   ──────────────────────────────────────────────────────────────── */
+.menu-dropdown {
+  position: relative;
+}
+
+.menu-dropdown__trigger {
+  gap: 0.5rem;
+}
+
+.menu-dropdown__trigger-icon {
+  width: 1em;
+  height: 1em;
+  transition: transform 0.2s ease;
+}
+
+/* Flip arrow when open */
+.menu-dropdown__trigger.active .menu-dropdown__trigger-icon {
+  transform: scaleY(-1);
+}
+
+/* The hidden dropdown box */
+.menu-dropdown__content-wrapper {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 220px;
+  z-index: 999;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(var(--dropdown-closed-top));
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Mega menus anchor to the right edge of their trigger so wide
+   dropdowns extend leftward rather than overflowing the viewport */
+[data-mega-menu="true"] > .menu-dropdown__content-wrapper {
+  left: auto;
+  right: 0;
+}
+
+/* When Javascript adds 'is-open' class */
+.menu-dropdown.is-open > .menu-dropdown__content-wrapper {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(var(--dropdown-open-top));
+}
+
+.menu-dropdown__content {
+  padding: var(--dropdown-padding);
+  background: var(--dropdown-bg);
+  box-shadow: var(--dropdown-box-shadow);
+  border-radius: var(--dropdown-border-radius);
+  border: var(--dropdown-border-width) solid var(--dropdown-border-color);
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+}
+
+.menu-dropdown__content a {
+  display: block;
+  padding: var(--dropdown-link-padding-block) var(--dropdown-link-padding-inline);
+  color: var(--dropdown-link-color);
+  border-radius: var(--dropdown-link-min-border-radius);
+  transition: background 120ms;
+}
+
+.menu-dropdown__content a:hover {
+  background: var(--dropdown-link-bg-color-hover);
+  color: var(--dropdown-link-color-hover);
+}
+
+/* ────────────────────────────────────────────────────────────────
+   4. MOBILE OFF-CANVAS & TOGGLE
+   ──────────────────────────────────────────────────────────────── */
+.toggle {
+  display: none; /* Hidden on desktop */
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 1001;
+  position: relative;
+  width: 44px;
+  height: 44px;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-dropdown-back-button {
+  display: none; /* Hidden on desktop */
+  background: none;
+  border: none;
+  cursor: pointer;
+  align-items: center;
+  gap: 0.5rem;
+  padding: var(--space-sm);
+  font-weight: 600;
+  border-bottom: 1px solid var(--border-light);
+  width: 100%;
+  text-align: left;
+}
+
+/* Toggle Animation Mechanics */
+.toggle span {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: rotate(45deg);
+  transition: 0.5s;
+  pointer-events: none;
+}
+
+.toggle.active span {
+  transform: rotate(135deg);
+  transition-delay: 0.5s;
+}
+
+.toggle span::before {
+  content: '';
+  position: absolute;
+  width: 28px;
+  height: 2px;
+  background: var(--toggle-icon-color);
+  display: block;
+  border-radius: 2px;
+  transition: 0.5s;
+}
+
+.toggle.active span::before {
+  box-shadow: 0 0 var(--toggle-icon-color);
+  transform: rotate(-270deg);
+  transition-delay: 1s;
+}
+
+.toggle span::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 2px;
+  background: var(--toggle-icon-color);
+  display: block;
+  border-radius: 2px;
+  transition: 0.5s;
+  box-shadow: 0 16px var(--toggle-icon-color);
+  transform: translateY(-8px);
+}
+
+.toggle.active span::after {
+  width: 28px;
+  box-shadow: 0 0 var(--toggle-icon-color);
+  transform: translateY(0px);
+}
+
+/* Responsive Mobile Overrides */
+@media (max-width: 991px) {
+  .toggle { display: flex; }
+
+  /* The wrapper becomes a full-screen inert overlay container */
+  .menu-wrapper.desktop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  .menu-wrapper.desktop.open {
+    pointer-events: auto;
+    visibility: visible;
+  }
+
+  /* Backdrop: darkens content behind the panel */
+  .menu-wrapper-backdrop {
+    position: fixed;
+    inset: 0;
+    background: oklch(0% 0 0 / 0.45);
+    opacity: 0;
+    transition: opacity var(--mobile-menu-transition-duration) ease;
+    pointer-events: none;
+  }
+
+  .menu-wrapper.desktop.open .menu-wrapper-backdrop {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* The actual slide-in panel */
+  .menu-wrapper__inner {
+    position: fixed;
+    inset-block: 0;
+    inset-inline-end: 0;
+    width: var(--mobile-menu-width);
+    max-width: 85vw;
+    background: var(--mobile-menu-bg-color);
+    overflow-y: auto;
+    padding-block: var(--mobile-menu-padding-block);
+    padding-inline: var(--mobile-menu-padding-inline);
+    transform: translateX(100%);
+    transition: transform var(--mobile-menu-transition-duration) ease;
+    box-shadow: var(--shadow-lg);
+    z-index: 1000;
+    pointer-events: auto;
+  }
+
+  .menu-wrapper.desktop.open .menu-wrapper__inner {
+    transform: translateX(0);
+  }
+
+  /* Stack nav items vertically */
+  .nav__list {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .menu-wrapper.desktop .nav__list > li > a,
+  .menu-wrapper.desktop .nav__list > li > button {
+    width: 100%;
+    justify-content: space-between;
+    border-radius: 0;
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  /* Dropdown sub-panels: in-flow on mobile, no absolute positioning */
+  .menu-dropdown__content-wrapper {
+    position: static;
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    transition: none;
+    display: none;
+  }
+
+  .menu-dropdown.is-open > .menu-dropdown__content-wrapper {
+    display: block;
+  }
+
+  .menu-dropdown__content {
+    box-shadow: none;
+    border: none;
+    border-radius: 0;
+    padding-inline: var(--space-sm);
+    padding-block: var(--space-xs);
+  }
+
+  /* Show back buttons inside sub-panels */
+  .menu-dropdown-back-button {
+    display: flex;
+  }
+}
+
+/* ================================================================
+   ARIES MEGA MENU COMPONENT
+   ================================================================ */
+.dropdown-aries {
+  --media-height: 21rem;
+  --column-gap: var(--space-md);
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: var(--column-gap);
+  align-items: center;
+}
+
+.dropdown-aries__media-wrapper {
+  --media-padding: var(--space-sm);
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  block-size: 100%;
+  min-block-size: var(--media-height);
+  border: 1px solid var(--border-light);
+}
+
+.dropdown-aries__media-wrapper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: color-mix(in oklch, var(--bg-surface-alt) 20%, transparent);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.dropdown-aries__media-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: var(--media-padding);
+  z-index: 2;
+  color: white;
+}
+
+.dropdown-aries__media-content-heading {
+  font-size: var(--text-lg);
+  font-weight: bold;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.dropdown-aries__media-content-eyebrow {
+  order: -1;
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.dropdown-aries__media {
+  block-size: 100%;
+  inline-size: 100%;
+  margin: 0;
+}
+
+.dropdown-aries__media img {
+  block-size: 100%;
+  inline-size: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.dropdown-aries__media-link {
+  position: absolute;
+  z-index: 3;
+  inset-block-end: var(--media-padding);
+  inset-inline-start: var(--media-padding);
+  padding-inline: var(--space-md);
+  padding-block: var(--space-xs);
+  background-color: var(--bg-surface);
+  color: var(--text-main);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  transform: translateY(calc(100% + var(--media-padding)));
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease;
+  pointer-events: none;
+  opacity: 0;
+}
+
+/* The Hover Trigger */
+.dropdown-aries__media-wrapper:hover .dropdown-aries__media-link {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Making the whole card clickable */
+.dropdown-aries__media-wrapper a::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+}
+
+.dropdown-aries__columns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+}
+
+/* Mobile Overrides */
+@media (max-width: 991px) {
+  .dropdown-aries {
+    display: flex;
+    flex-direction: column;
+  }
+  .dropdown-aries__media-wrapper {
+    max-block-size: var(--media-height);
+  }
+  .dropdown-aries__columns {
+    display: flex;
+    flex-direction: column;
+    padding-inline: 0;
+  }
+}

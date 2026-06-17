@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import MenuPackage from '../../components/MenuPackage.astro';
+import { getEntry } from 'astro:content';
+import './cocktail-parties.css';
+
+const title = "Cocktail Parties — Sean Patrick's Emerald Isle";
+const description = "Minimum 35 adult guests · 2 hours open bar";
+const loadMap = true;
+
+const entry = await getEntry('menus', 'cocktail-parties');
+if (!entry) throw new Error('Missing menu content: src/content/menus/cocktail-parties.md');
+const { data } = entry;
+---
+
+<BaseLayout title={title} description={description} loadMap={loadMap}>
+  <div class="sp-pkg">
+    {data.packages.map((pkg, i) => <MenuPackage pkg={pkg} isFirst={i === 0} compact={pkg.compact} />)}
+  </div>
+</BaseLayout>

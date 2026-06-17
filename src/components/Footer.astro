@@ -1,0 +1,28 @@
+---
+/**
+ * Footer.astro
+ * ------------
+ * Site footer band: dark pre-footer with map + hours card,
+ * plus the multi-column footer with tagline, quick links,
+ * and contact info.
+ *
+ * Live "Open Now / Closed" status is updated by /js/site.js.
+ * Map is loaded only on pages where loadMap was true on BaseLayout
+ * (the #map div is empty in JS-disabled environments).
+ */
+
+import Hours from './Hours.astro';
+import FooterColumns from './FooterColumns.astro';
+---
+
+<!-- ── Pre-footer: Map + Hours ──────────────────────────────────── -->
+<div class="sp-prefooter" id="contact">
+  <div class="sp-prefooter__inner">
+    <div class="sp-prefooter__map">
+      <div id="map"></div>
+    </div>
+    <Hours />
+  </div>
+</div>
+
+<FooterColumns />

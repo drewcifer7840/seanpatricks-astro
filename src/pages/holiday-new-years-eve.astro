@@ -1,0 +1,146 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const title = "New Year's Eve — Sean Patrick's Emerald Isle";
+const description = "New Year";
+const loadMap = false;
+---
+
+<BaseLayout title={title} description={description} loadMap={loadMap}>
+<main>
+  <div class="sp-coming-soon">
+    <div class="sp-coming-soon__poster">
+
+      <p class="sp-coming-soon__eyebrow">Holiday Dining</p>
+
+      <div class="sp-coming-soon__frame">
+        <div class="sp-coming-soon__rule sp-coming-soon__rule--thick"></div>
+        <div class="sp-coming-soon__rule"></div>
+        <h1 class="sp-coming-soon__title">New Year's Eve</h1>
+        <div class="sp-coming-soon__rule"></div>
+        <div class="sp-coming-soon__rule sp-coming-soon__rule--thick"></div>
+      </div>
+
+      <p class="sp-coming-soon__tagline">Details Coming Soon</p>
+
+      <div class="sp-coming-soon__divider" aria-hidden="true"></div>
+
+      <p class="sp-coming-soon__body">
+        Menu, pricing, and reservation information for this event will be announced closer to the date. We'd love to hear from you in the meantime.
+      </p>
+
+      <a href="tel:+17166361709" class="sp-coming-soon__phone">716-636-1709</a>
+      <p class="sp-coming-soon__phone-label">Call to inquire or reserve your table</p>
+
+    </div>
+  </div>
+</main>
+
+<style is:global>
+    /* ================================================================
+       COMPONENT: sp-coming-soon
+       Poster-style placeholder for upcoming holiday event pages.
+       ================================================================ */
+
+    .sp-coming-soon {
+      min-height: calc(100svh - 69px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-2xl) var(--space-lg);
+    }
+
+    .sp-coming-soon__poster {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-lg);
+      text-align: center;
+      max-width: 560px;
+    }
+
+    .sp-coming-soon__eyebrow {
+      font-size: var(--text-sm);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--text-brand);
+    }
+
+    /* Double-rule frame */
+    .sp-coming-soon__frame {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      width: 100%;
+      padding-block: var(--space-lg);
+    }
+
+    .sp-coming-soon__rule {
+      width: 100%;
+      max-width: 400px;
+      height: 1px;
+      background: var(--border-brand);
+      opacity: 0.4;
+    }
+
+    .sp-coming-soon__rule--thick {
+      height: 2px;
+      opacity: 0.8;
+    }
+
+    .sp-coming-soon__title {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      font-weight: 700;
+      color: var(--text-heading);
+      line-height: 1.05;
+      padding-block: var(--space-md);
+    }
+
+    .sp-coming-soon__tagline {
+      font-size: var(--text-sm);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-muted);
+    }
+
+    .sp-coming-soon__body {
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+      line-height: 1.8;
+      max-width: 380px;
+      font-style: italic;
+    }
+
+    .sp-coming-soon__divider {
+      width: 32px;
+      height: 2px;
+      background: var(--border-brand);
+      border-radius: var(--radius-sm);
+      opacity: 0.5;
+    }
+
+    .sp-coming-soon__phone {
+      font-family: var(--font-display);
+      font-size: var(--text-xl);
+      font-weight: 700;
+      color: var(--text-brand);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+
+    .sp-coming-soon__phone:hover {
+      text-decoration: underline;
+    }
+
+    .sp-coming-soon__phone-label {
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+      margin-block-start: calc(var(--space-xs) * -1);
+    }
+</style>
+
+</BaseLayout>

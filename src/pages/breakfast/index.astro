@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import MenuPackage from '../../components/MenuPackage.astro';
+import { getEntry } from 'astro:content';
+import './breakfast.css';
+
+const title = "Breakfasts — Sean Patrick's Emerald Isle";
+const description = "Catered breakfast options for groups of 35 or more.";
+const loadMap = true;
+
+const entry = await getEntry('menus', 'breakfast');
+if (!entry) throw new Error('Missing menu content: src/content/menus/breakfast.md');
+const { data } = entry;
+---
+
+<BaseLayout title={title} description={description} loadMap={loadMap}>
+  <div class="sp-pkg">
+    {data.packages.map((pkg, i) => <MenuPackage pkg={pkg} isFirst={i === 0} />)}
+  </div>
+</BaseLayout>

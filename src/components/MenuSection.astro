@@ -1,0 +1,611 @@
+---
+/**
+ * MenuSection.astro
+ * -----------------
+ * Renders one section of a menu from the `menus` content collection.
+ *
+ * Supports multiple section layouts via the `layout` discriminator:
+ *   items     (default) — standard card grid (lunch, dinner, etc.)
+ *   sides               — 2-column block of plain list items
+ *   pricelist           — auto-fit grid of compact name+price rows (beers)
+ *   wine                — house wine block + glass groups + bottles
+ *   info                — info cards (Beverages / Kids / Dessert)
+ *   promo               — promo cards (Happy Hour / Weekly Specials)
+ *
+ * All styles are scoped (Astro hashes the selectors). No `is:global`.
+ */
+
+import type { CollectionEntry } from 'astro:content';
+import MenuPriceList from './MenuPriceList.astro';
+
+type Section = CollectionEntry<'menus'>['data']['sections'][number];
+
+interface Props {
+  section: Section;
+}
+
+const { section } = Astro.props;
+
+// Derive an id for aria-labelledby from the heading. Lowercase,
+// non-alphanumerics → dashes, collapse runs of dashes.
+const id =
+  'heading-' +
+  section.heading
+    .toLowerCase()
+    .replace(/&/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+
+// Badge label helper — `new-addon` is a two-word label.
+const badgeLabel = (b: string) => {
+  if (b === 'new-addon') return 'New Add-on';
+  if (b === 'gf') return 'Gluten Free';
+  return b.charAt(0).toUpperCase() + b.slice(1);
+};
+
+const layout = section.layout ?? 'items';
+---
+
+<section class="sp-menu__section" aria-labelledby={id}>
+  <div class="sp-menu__section-heading">
+    <h2 class="sp-menu__section-title" id={id}>{section.heading}</h2>
+    <div class="sp-menu__section-rule" aria-hidden="true"></div>
+  </div>
+
+  {section.note && <p class="sp-menu__section-note" set:html={section.note} />}
+
+  {layout === 'sides' && section.groups && (
+    <div class="sp-menu__sides">
+      {section.groups.map((group) => (
+        <div>
+          <p class="sp-menu__sides-group-title">{group.title}</p>
+          <ul class="sp-menu__sides-list">
+            {group.items.map((entry) => (
+              <li set:html={entry} />
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  )}
+
+  {layout === 'pricelist' && section.columns && (
+    <MenuPriceList columns={section.columns} />
+  )}
+
+  {layout === 'wine' && (
+    <>
+      {section.house && (
+        <div class="sp-menu__house-wine">
+          <p class="sp-menu__house-wine-heading">{section.house.heading}</p>
+          <p class="sp-menu__house-wine-list" set:html={section.house.list} />
+        </div>
+      )}
+
+      {section.glassGroups && section.glassGroups.length > 0 && (
+        <div class="sp-menu__wine-groups">
+          {section.glassGroups.map((group) => (
+            <div>
+              <p class="sp-menu__wine-type-label">{group.label}</p>
+              <div class="sp-menu__wine-glass-grid">
+                {group.items.map((wine) => (
+                  <div class="sp-menu__wine-card">
+                    <div class="sp-menu__wine-card-header">
+                      <span class="sp-menu__wine-name">{wine.name}</span>
+                      <span class="sp-menu__wine-price">{wine.price}</span>
+                    </div>
+                    <span class="sp-menu__wine-region">{wine.region}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {section.bottles && section.bottles.length > 0 && (
+        <div>
+          <p class="sp-menu__wine-type-label" style="margin-block-end: var(--space-md);">By the Bottle</p>
+          <div class="sp-menu__columns">
+            {section.bottles.map((item) => (
+              <div class:list={['sp-menu__item', item.signature && 'sp-menu__item--signature']}>
+                <div class="sp-menu__item-header">
+                  <p class="sp-menu__item-name">{item.name}</p>
+                  {item.price && <span class="sp-menu__item-price">{item.price}</span>}
+                </div>
+                {item.region && <p class="sp-menu__item-sub">{item.region}</p>}
+                {item.description && <p class="sp-menu__item-desc">{item.description}</p>}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </>
+  )}
+
+  {layout === 'info' && section.infoCards && (
+    <div class="sp-menu__info-grid">
+      {section.infoCards.map((card) => (
+        <div class="sp-menu__info-card">
+          <p class="sp-menu__info-heading">{card.heading}</p>
+          <ul class="sp-menu__info-list">
+            {card.items.map((entry) => (
+              <li set:html={entry} />
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  )}
+
+  {layout === 'promo' && section.promos && (
+    <div class="sp-menu__promo-grid">
+      {section.promos.map((promo) => (
+        <div class="sp-menu__promo">
+          <p class="sp-menu__promo-heading">{promo.heading}</p>
+          {promo.hours && <p class="sp-menu__promo-hours">{promo.hours}</p>}
+          <ul class="sp-menu__promo-list">
+            {promo.items.map((entry) => (
+              <li set:html={entry} />
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  )}
+
+  {layout === 'items' && section.items && (
+    <div class="sp-menu__columns">
+      {section.items.map((item) => (
+        <div class:list={['sp-menu__item', item.signature && 'sp-menu__item--signature']}>
+          <div class="sp-menu__item-header">
+            <p class="sp-menu__item-name">{item.name}</p>
+
+            {item.priceOptions ? (
+              <div class="sp-menu__price-split">
+                {item.priceOptions.map((opt, i) => (
+                  <>
+                    {i > 0 && <div class="sp-menu__price-divider" aria-hidden="true"></div>}
+                    <div class="sp-menu__price-split-item">
+                      <span class="sp-menu__price-label">{opt.label}</span>
+                      <span class="sp-menu__price-value">{opt.value}</span>
+                    </div>
+                  </>
+                ))}
+              </div>
+            ) : (
+              item.price && <span class="sp-menu__item-price">{item.price}</span>
+            )}
+          </div>
+
+          {item.description && <p class="sp-menu__item-desc">{item.description}</p>}
+
+          {item.badges && item.badges.length > 0 && (
+            <div class="sp-menu__badges">
+              {item.badges.map((b) => (
+                <span class:list={['sp-menu__badge', `sp-menu__badge--${b}`]}>
+                  {badgeLabel(b)}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  )}
+
+  {section.footnote && (
+    <p class="sp-menu__footnote" set:html={section.footnote} />
+  )}
+</section>
+
+<style>
+  /* ================================================================
+     SECTION
+     ================================================================ */
+  .sp-menu__section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .sp-menu__section-heading {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+  }
+
+  .sp-menu__section-title {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: var(--text-brand);
+    white-space: nowrap;
+    line-height: 1;
+  }
+
+  .sp-menu__section-rule {
+    flex: 1;
+    height: 2px;
+    background: var(--border-light);
+    border-radius: var(--radius-sm);
+  }
+
+  .sp-menu__section-note {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    font-style: italic;
+  }
+
+  /* ================================================================
+     COLUMNS GRID (CSS columns masonry)
+     ================================================================ */
+  .sp-menu__columns {
+    columns: 3 280px;
+    column-gap: var(--space-lg);
+  }
+
+  /* ================================================================
+     ITEM CARD
+     ================================================================ */
+  .sp-menu__item {
+    break-inside: avoid;
+    background: var(--bg-surface);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    margin-block-end: var(--space-md);
+    border-inline-start: 3px solid transparent;
+    transition: border-color var(--transition-fast);
+  }
+
+  .sp-menu__item--signature {
+    border-inline-start-color: var(--brand-500);
+  }
+
+  .sp-menu__item-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    margin-block-end: 4px;
+  }
+
+  .sp-menu__item-name {
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    font-weight: 700;
+    color: var(--text-main);
+    line-height: 1.2;
+    flex: 1;
+  }
+
+  .sp-menu__item-price {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--text-brand);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .sp-menu__item-sub {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    font-style: italic;
+    margin-block-end: 4px;
+  }
+
+  /* ── Multi-price ── */
+  .sp-menu__price-split {
+    display: flex;
+    gap: var(--space-xs);
+    align-items: center;
+  }
+
+  .sp-menu__price-split-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    line-height: 1.1;
+  }
+
+  .sp-menu__price-label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .sp-menu__price-value {
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--text-brand);
+  }
+
+  .sp-menu__price-divider {
+    width: 1px;
+    height: 24px;
+    background: var(--border-light);
+    flex-shrink: 0;
+  }
+
+  .sp-menu__item-desc {
+    font-size: var(--text-sm);
+    line-height: 1.55;
+    color: var(--text-muted);
+  }
+
+  .sp-menu__badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-block-start: var(--space-xs);
+  }
+
+  .sp-menu__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 2px 6px;
+    border-radius: var(--radius-sm);
+    line-height: 1.4;
+  }
+
+  .sp-menu__badge--signature {
+    background: var(--brand-50);
+    color: var(--brand-700);
+  }
+
+  .sp-menu__badge--new {
+    background: var(--accent-100);
+    color: var(--accent-900);
+  }
+
+  .sp-menu__badge--gf {
+    background: var(--neutral-50);
+    color: var(--neutral-800);
+    border: 1px solid var(--neutral-200);
+  }
+
+  /* ================================================================
+     SIDES & ADD-ONS BLOCK (2-column list layout)
+     ================================================================ */
+  .sp-menu__sides {
+    background: var(--bg-surface);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg);
+  }
+
+  .sp-menu__sides-group-title {
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    font-weight: 700;
+    color: var(--text-main);
+    margin-block-end: var(--space-sm);
+  }
+
+  .sp-menu__sides-list {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    line-height: 1.8;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    list-style: none;
+    padding: 0;
+  }
+
+  .sp-menu__sides-list li::before {
+    content: '·';
+    margin-inline-end: var(--space-xs);
+    color: var(--brand-500);
+  }
+
+  /* ================================================================
+     WINE LAYOUT (house + glass groups + bottles)
+     ================================================================ */
+  .sp-menu__house-wine {
+    background: var(--bg-surface);
+    border-radius: var(--radius-md);
+    border-inline-start: 3px solid var(--brand-500);
+    padding: var(--space-md) var(--space-lg);
+  }
+
+  .sp-menu__house-wine-heading {
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    font-weight: 700;
+    color: var(--text-main);
+    margin-block-end: var(--space-xs);
+  }
+
+  .sp-menu__house-wine-list {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  .sp-menu__wine-groups {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  .sp-menu__wine-type-label {
+    font-size: var(--text-sm);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    padding-block-end: var(--space-xs);
+    border-block-end: 1px solid var(--border-light);
+    margin-block-end: var(--space-sm);
+  }
+
+  .sp-menu__wine-glass-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: var(--space-sm);
+  }
+
+  .sp-menu__wine-card {
+    background: var(--bg-surface);
+    border-radius: var(--radius-md);
+    padding: var(--space-sm) var(--space-md);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .sp-menu__wine-card-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-sm);
+  }
+
+  .sp-menu__wine-name {
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--text-main);
+    line-height: 1.2;
+    flex: 1;
+  }
+
+  .sp-menu__wine-price {
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--text-brand);
+    flex-shrink: 0;
+  }
+
+  .sp-menu__wine-region {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    font-style: italic;
+  }
+
+  /* ================================================================
+     INFO LAYOUT (Beverages / Kids / Dessert)
+     ================================================================ */
+  .sp-menu__info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--space-md);
+  }
+
+  .sp-menu__info-card {
+    background: var(--bg-surface);
+    border-radius: var(--radius-md);
+    padding: var(--space-md) var(--space-lg);
+  }
+
+  .sp-menu__info-heading {
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    font-weight: 700;
+    color: var(--text-main);
+    margin-block-end: var(--space-sm);
+    padding-block-end: var(--space-xs);
+    border-block-end: 1px solid var(--border-light);
+  }
+
+  .sp-menu__info-list {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    line-height: 1.8;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    list-style: none;
+    padding: 0;
+  }
+
+  .sp-menu__info-list li::before {
+    content: '·';
+    margin-inline-end: var(--space-xs);
+    color: var(--brand-500);
+  }
+
+  /* ================================================================
+     PROMO LAYOUT (Happy Hour / Weekly Specials)
+     ================================================================ */
+  .sp-menu__promo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-md);
+  }
+
+  .sp-menu__promo {
+    background: var(--bg-surface);
+    border-radius: var(--radius-md);
+    border-top: 3px solid var(--border-brand);
+    padding: var(--space-md) var(--space-lg);
+  }
+
+  .sp-menu__promo-heading {
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    font-weight: 700;
+    color: var(--text-brand);
+    margin-block-end: 4px;
+  }
+
+  .sp-menu__promo-hours {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    font-style: italic;
+    margin-block-end: var(--space-sm);
+  }
+
+  .sp-menu__promo-list {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    line-height: 1.8;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    list-style: none;
+    padding: 0;
+  }
+
+  .sp-menu__promo-list li::before {
+    content: '·';
+    margin-inline-end: var(--space-xs);
+    color: var(--accent-500);
+  }
+
+  /* ================================================================
+     SECTION FOOTNOTE
+     ================================================================ */
+  .sp-menu__footnote {
+    background: var(--bg-surface-alt);
+    border-radius: var(--radius-md);
+    padding: var(--space-sm) var(--space-md);
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    line-height: 1.65;
+  }
+
+  .sp-menu__footnote :global(strong) {
+    color: var(--text-main);
+    font-weight: 600;
+  }
+
+  /* ================================================================
+     RESPONSIVE
+     ================================================================ */
+  @media (max-width: 600px) {
+    .sp-menu__columns { columns: 1; }
+    .sp-menu__sides { grid-template-columns: 1fr; }
+    .sp-menu__wine-glass-grid { grid-template-columns: 1fr; }
+  }
+</style>

@@ -1,0 +1,484 @@
+/* ================================================================
+   COMPONENTS.CSS — Reusable Component Styles for Sean Patrick's
+   ================================================================
+   Loaded globally. Each section here is a self-contained component
+   using the sp- BEM convention (sp-{name}__{element}--{modifier}).
+
+   Components in this file:
+     1. .sp-faq          (filterable accordion FAQ, with categories)
+     2. .sp-welcome      (editorial two-column: heading + narrative)
+     3. .sp-about        (passage-based content blocks)
+     4. .reviews         (static testimonial grid)
+   ================================================================ */
+
+/* ================================================================
+   1. COMPONENT: sp-faq
+   Filterable accordion FAQ with segmented category switcher.
+   BEM: sp-faq__{element}--{modifier}
+   ================================================================ */
+
+.sp-faq {
+  width: 100%;
+  max-width: 900px;
+}
+
+/* ── Card wrapper — matches partial system ────────────────────── */
+.sp-faq__card {
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  border-top: 3px solid var(--border-brand);
+  padding: var(--space-xl) var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+/* ── Header ───────────────────────────────────────────────────── */
+.sp-faq__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.sp-faq__heading {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--text-brand);
+  line-height: 1.2;
+}
+
+.sp-faq__subheading {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+/* ── Segmented filter control ─────────────────────────────────── */
+.sp-faq__filters {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  align-self: flex-start;
+}
+
+.sp-faq__filter-btn {
+  padding: var(--space-xs) var(--space-md);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  border-inline-end: 1px solid var(--border-light);
+  cursor: pointer;
+  transition: background var(--transition-fast),
+              color var(--transition-fast);
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.sp-faq__filter-btn:last-child {
+  border-inline-end: none;
+}
+
+.sp-faq__filter-btn:hover:not(.sp-faq__filter-btn--active) {
+  background: var(--bg-surface-alt);
+  color: var(--text-main);
+}
+
+.sp-faq__filter-btn--active {
+  background: var(--brand-500);
+  color: white;
+}
+
+/* ── FAQ groups ───────────────────────────────────────────────── */
+.sp-faq__groups {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.sp-faq__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+/* Hidden group state */
+.sp-faq__group[hidden] {
+  display: none;
+}
+
+/* Fade-in when group becomes visible */
+.sp-faq__group {
+  animation: sp-faq-fade 0.25s ease;
+}
+
+@keyframes sp-faq-fade {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.sp-faq__group-heading {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: var(--text-sm);
+  padding-block-end: var(--space-xs);
+  border-block-end: 1px solid var(--border-light);
+  margin-block-end: var(--space-xs);
+}
+
+/* ── Individual FAQ item (details/summary accordion) ─────────── */
+.sp-faq__item {
+  border-block-end: 1px solid var(--border-light);
+}
+
+.sp-faq__item:last-child {
+  border-block-end: none;
+}
+
+/* Remove default marker */
+.sp-faq__question {
+  list-style: none;
+}
+
+.sp-faq__question::-webkit-details-marker {
+  display: none;
+}
+
+.sp-faq__question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding-block: var(--space-md);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--text-main);
+  cursor: pointer;
+  user-select: none;
+  transition: color var(--transition-fast);
+}
+
+.sp-faq__question:hover {
+  color: var(--text-brand);
+}
+
+/* Chevron icon — CSS-drawn, rotates on open */
+.sp-faq__chevron {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  border-radius: var(--radius-full);
+  background: var(--bg-surface-alt);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition-fast),
+              transform var(--transition-fast);
+}
+
+.sp-faq__chevron::after {
+  content: '';
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-inline-end: 2px solid var(--text-muted);
+  border-block-end: 2px solid var(--text-muted);
+  transform: rotate(45deg) translate(-1px, -1px);
+  transition: border-color var(--transition-fast),
+              transform var(--transition-fast);
+}
+
+.sp-faq__item[open] .sp-faq__chevron {
+  background: var(--brand-500);
+  transform: rotate(180deg);
+}
+
+.sp-faq__item[open] .sp-faq__chevron::after {
+  border-color: white;
+}
+
+.sp-faq__item[open] .sp-faq__question {
+  color: var(--text-brand);
+}
+
+/* Answer panel */
+.sp-faq__answer {
+  padding-block-end: var(--space-md);
+  padding-inline-end: var(--space-xl);
+}
+
+.sp-faq__answer p {
+  font-size: var(--text-sm);
+  line-height: 1.75;
+  color: var(--text-muted);
+}
+
+/* ── Responsive ───────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .sp-faq__card {
+    padding: var(--space-lg) var(--space-md);
+  }
+
+  .sp-faq__filters {
+    align-self: stretch;
+  }
+
+  .sp-faq__filter-btn {
+    flex: 1;
+    text-align: center;
+  }
+
+  .sp-faq__answer {
+    padding-inline-end: var(--space-sm);
+  }
+}
+
+
+/* ================================================================
+   COMPONENT: sp-welcome
+   Editorial two-column: display heading left, narrative right.
+   BEM: sp-welcome__{element}--{modifier}
+   ================================================================ */
+
+.sp-welcome {
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* ── Card wrapper — matches about-partial aesthetic ───────────── */
+.sp-welcome__card {
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  border-top: 3px solid var(--border-brand);
+  padding: var(--space-xl) var(--space-lg);
+
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: var(--space-xl);
+  align-items: start;
+}
+
+/* ── Left: display heading column ─────────────────────────────── */
+.sp-welcome__identity {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  /* sticky so it stays in view as body scrolls on tall viewports */
+  position: sticky;
+  top: var(--space-lg);
+}
+
+.sp-welcome__heading {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  color: var(--text-brand);
+  line-height: 1.1;
+}
+
+/* thin accent bar — consistent with other partials */
+.sp-welcome__bar {
+  width: 40px;
+  height: 3px;
+  background: var(--border-brand);
+  border-radius: var(--radius-sm);
+}
+
+.sp-welcome__translation {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  font-style: italic;
+  line-height: 1.4;
+}
+
+/* ── Right: narrative body ────────────────────────────────────── */
+.sp-welcome__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.sp-welcome__p {
+  font-size: var(--text-base);
+  line-height: 1.75;
+  color: var(--text-main);
+}
+
+/* ── Responsive ───────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .sp-welcome__card {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+
+  .sp-welcome__identity {
+    position: static;
+  }
+
+  .sp-welcome__heading {
+    font-size: var(--text-2xl);
+  }
+}
+
+
+/* ================================================================
+   COMPONENT: sp-about
+   ================================================================ */
+
+.sp-about {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+/* ── Shared passage block ─────────────────────────────────────── */
+.sp-about__passage {
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  border-top: 3px solid var(--border-brand);
+}
+
+.sp-about__passage-title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--text-brand);
+  margin-block-end: var(--space-sm);
+  line-height: 1.2;
+}
+
+.sp-about__passage-body {
+  font-size: var(--text-base);
+  color: var(--text-main);
+  line-height: 1.7;
+}
+
+.sp-about__passage-body + .sp-about__passage-body {
+  margin-block-start: var(--space-sm);
+}
+
+/* ── Leader: full-width top passage ───────────────────────────── */
+.sp-about__leader {
+  /* inherits .sp-about__passage — no extra rules needed */
+}
+
+/* ── Grid: 3 equal columns ────────────────────────────────────── */
+.sp-about__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+}
+
+/* ── Responsive ───────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .sp-about__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ================================================================
+   COMPONENT: reviews
+   Static testimonial grid — no JS dependency
+   ================================================================ */
+
+.reviews__header {
+  text-align: center;
+  margin-block-end: var(--space-xl);
+}
+
+.reviews__heading {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-weight: 800;
+  color: var(--text-brand);
+  margin-block-end: 0.4rem;
+  line-height: 1.2;
+}
+
+.reviews__subtext {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+.reviews__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-lg);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.reviews__card {
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.reviews__stars {
+  color: var(--accent-500);
+  font-size: var(--text-lg);
+}
+
+.reviews__quote {
+  margin: 0;
+  flex: 1;
+}
+
+.reviews__quote p {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  line-height: 1.75;
+  margin: 0;
+}
+
+.reviews__attribution {
+  border-block-start: 1px solid var(--border-light);
+  padding-block-start: var(--space-sm);
+}
+
+.reviews__name {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.reviews__event {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .reviews__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .reviews__grid {
+    grid-template-columns: 1fr;
+  }
+}

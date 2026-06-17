@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import MenuSection from '../../components/MenuSection.astro';
+import { getEntry } from 'astro:content';
+import './dinner-menu.css';
+
+const title = "Dinner Menu — Sean Patrick's Emerald Isle";
+const description = undefined;
+const loadMap = true;
+
+const entry = await getEntry('menus', 'dinner');
+if (!entry) throw new Error('Missing menu content: src/content/menus/dinner.md');
+const { data } = entry;
+---
+
+<BaseLayout title={title} loadMap={loadMap}>
+<div class="section">
+<main class="sp-menu">
+
+  <header class="sp-menu__page-heading">
+    <h1 class="sp-menu__title">{data.title}</h1>
+    {data.summary && <p class="sp-menu__subtitle">{data.summary}</p>}
+  </header>
+
+  {data.sections.map((section) => <MenuSection section={section} />)}
+
+</main>
+</div>
+</BaseLayout>

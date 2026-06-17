@@ -1,0 +1,128 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import MenuPackage from '../../components/MenuPackage.astro';
+
+const title = "Catering — Sean Patrick's Emerald Isle";
+const description = undefined;
+const loadMap = true;
+
+const officeLunchEntrees = [
+  'Sliced Turkey Breast with Gravy',
+  'Roast Beef Au Jus <em>(kummelweck and bulky rolls included)</em>',
+  'Roast Beef with Gravy',
+  'Oven Roasted Chicken',
+  'Baked Penne',
+  'Baked Ham with Pineapple Glaze',
+  'Breaded Pork Chops',
+  'Chicken Marsala',
+  'Roast Porkloin',
+  'Italian Sausage, Peppers &amp; Onions',
+  'Chicken Parmigiana <em>(lightly breaded boneless chicken breasts, sautéed, provolone, house sauce)</em>',
+];
+
+const dinnerEntrees = [
+  'Sliced Turkey Breast with Gravy',
+  'Roast Beef Au Jus <em>(kummelweck and bulky rolls included)</em>',
+  'Oven Roasted Chicken',
+  'Homemade Vegetable Lasagna',
+  'Baked Haddock',
+  'Baked Ham with Pineapple Glaze',
+  'Potato Encrusted Haddock',
+  'Baked or Bruschetta Haddock',
+  'Breaded Pork Chops',
+  'Chicken Marsala',
+  'Roast Porkloin',
+  'Italian Sausage, Peppers &amp; Onions',
+  'Chicken Parmigiana <em>(lightly breaded boneless chicken breasts, sautéed, provolone, house sauce)</em>',
+];
+
+const sides = [
+  'Chef Salad',
+  'Cole Slaw',
+  'Caesar Salad',
+  'Rice Pilaf',
+  'Potato Salad',
+  'Pasta Salad',
+  'Mashed Potatoes &amp; Gravy',
+  'Vegetable Medley',
+  'Fresh Fruit (seasonal)',
+];
+
+const horsColumn1 = [
+  { name: 'Vegetable Pinwheels', price: '$75' },
+  { name: 'Red Pepper Hummus Pinwheels', price: '$75' },
+  { name: 'Bruschetta', price: '$80' },
+  { name: 'Bourbon Glazed Meatballs', price: '$90' },
+  { name: 'Strawberry &amp; Brie Crostini', price: '$95' },
+  { name: 'Chicken Wings', price: '$105' },
+  { name: 'Casino Stuffed Mushrooms', price: '$105' },
+];
+
+const horsColumn2 = [
+  { name: 'Potato Skins', price: '$105' },
+  { name: 'Chicken Fingers', price: '$115' },
+  { name: 'Teriyaki Chicken Skewers', price: '$120' },
+  { name: 'Stuffed Banana Peppers', price: '$125' },
+  { name: 'Shrimp Cocktail', price: '$130' },
+  { name: 'Mini Beef on Weck', price: '$155' },
+  { name: 'Mini Reubens', price: '$155' },
+];
+
+const packages = [
+  {
+    label: 'Catering',
+    isFirst: true,
+    meta: 'Lunch &amp; dinner packages for your special event.',
+    intro: 'Sean Patrick\'s Restaurant will take immense pride in catering for your special event. If our menu does not fit your needs, we can customize a menu for you. Food is packaged in large containers making it easy to pick up. Final payment must be received at the time of pickup.',
+    contact: {
+      name: 'Liz Dodge',
+      title: 'Catering Director',
+      phone: '716-636-1709',
+      text: 'Questions? Reach out before booking.',
+    },
+  },
+  {
+    label: 'Office Lunch',
+    meta: 'Served until 2 PM',
+    price: '$22',
+    priceUnit: 'per person',
+    ruleNote: 'Choose 2 Entrées and 2 Side Dishes.<br>Includes rolls and butter.',
+    subSections: [
+      { title: 'Entrées', items: officeLunchEntrees },
+      { title: 'Side Dishes', type: 'sides' as const, items: sides },
+    ],
+  },
+  {
+    label: 'Dinner Package',
+    meta: 'Evening service',
+    price: '$26',
+    priceUnit: 'per person',
+    ruleNote: 'Choose 2 Entrées and 3 Side Dishes.<br>Includes rolls and butter.',
+    subSections: [
+      { title: 'Entrées', items: dinnerEntrees },
+      { title: 'Side Dishes', type: 'sides' as const, items: sides },
+    ],
+  },
+  {
+    label: 'Hors D\'Oeuvres',
+    compact: true,
+    subSections: [
+      {
+        title: 'Hors D\'Oeuvres — 50 pieces per order',
+        type: 'pricelist' as const,
+        columns: [
+          { items: horsColumn1 },
+          { items: horsColumn2 },
+        ],
+      },
+    ],
+    footerNote: '<strong>Fruit, Cheese &amp; Vegetable Trays</strong> &nbsp;·&nbsp; Fresh Fruit Tray $4/person &nbsp;·&nbsp; Imported Cheese &amp; Pepperoni Tray $4/person &nbsp;·&nbsp; Vegetable Platter $4/person &nbsp;·&nbsp; <strong>2 platters $6/person &nbsp;·&nbsp; 3 platters $8/person</strong>',
+  },
+];
+---
+
+<BaseLayout title={title} loadMap={loadMap}>
+<div class="sp-pkg">
+  {packages.map((pkg, i) => <MenuPackage pkg={pkg} isFirst={i === 0} />)}
+</div>
+</BaseLayout>

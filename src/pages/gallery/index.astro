@@ -1,0 +1,393 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import './gallery.css';
+const title = "Gallery — Sean Patrick's Emerald Isle";
+const description = undefined;
+const loadMap = true;
+---
+
+<BaseLayout title={title} loadMap={loadMap}>
+<section class="sp-gallery" aria-labelledby="gallery-heading">
+
+  <div class="sp-gallery__header">
+    <p class="sp-gallery__tagline">Our Space &amp; Cuisine</p>
+    <h2 class="sp-gallery__heading" id="gallery-heading">A Taste of Sean Patrick's</h2>
+    <p class="sp-gallery__desc">From hearty Buffalo classics to elegant banquet events — take a look at what makes us home.</p>
+  </div>
+
+  <div class="sp-gallery__filters" role="group" aria-label="Filter gallery by category">
+    <button class="sp-gallery__filter-btn" aria-pressed="true"  data-filter="all">View all</button>
+    <button class="sp-gallery__filter-btn" aria-pressed="false" data-filter="food">Food</button>
+    <button class="sp-gallery__filter-btn" aria-pressed="false" data-filter="drinks">Drinks</button>
+    <button class="sp-gallery__filter-btn" aria-pressed="false" data-filter="bar">Bar &amp; Lounge</button>
+    <button class="sp-gallery__filter-btn" aria-pressed="false" data-filter="banquet">Banquet &amp; Events</button>
+    <button class="sp-gallery__filter-btn" aria-pressed="false" data-filter="restaurant">Restaurant</button>
+  </div>
+
+  <ul class="sp-gallery__grid" id="gallery-grid" aria-live="polite" aria-label="Gallery photos">
+
+    <!-- ── Food ──────────────────────────────────────────────────── -->
+    <li class="sp-gallery__item" data-category="food">
+      <figure class="sp-gallery__figure">
+        <img src="img/gallery/BeefOnWeck-400x284.jpg" alt="Beef on Weck sandwich" width="400" height="284" loading="lazy">
+      </figure>
+      <div class="sp-gallery__caption">
+        <span class="sp-gallery__name">Beef on Weck</span>
+        <span class="sp-gallery__divider" aria-hidden="true"></span>
+        <span class="sp-gallery__cat">Food</span>
+      </div>
+    </li>
+
+    <li class="sp-gallery__item" data-category="food">
+      <figure class="sp-gallery__figure">
+        <img src="img/gallery/NYStrip-400x284.jpg" alt="NY Strip steak" width="400" height="284" loading="lazy">
+      </figure>
+      <div class="sp-gallery__caption">
+        <span class="sp-gallery__name">NY Strip</span>
+        <span class="sp-gallery__divider" aria-hidden="true"></span>
+        <span class="sp-gallery__cat">Food</span>
+      </div>
+    </li>
+
+    <li class="sp-gallery__item" data-category="food">
+      <figure class="sp-gallery__figure">
+        <img src="img/gallery/Shrimp_SalmonScampi-400x284.jpg" alt="Shrimp and salmon scampi" width="400" height="284" loading="lazy">
+      </figure>
+      <div class="sp-gallery__caption">
+        <span class="sp-gallery__name">Shrimp &amp; Salmon Scampi</span>
+        <span class="sp-gallery__divider" aria-hidden="true"></span>
+        <span class="sp-gallery__cat">Food</span>
+      </div>
+    </li>
+
+    <li class="sp-gallery__item" data-category="food">
+      <figure class="sp-gallery__figure">
+        <img src="img/gallery/ChickenParm-400x284.jpg" alt="Chicken parmesan" width="400" height="284" loading="lazy">
+      </figure>
+      <div class="sp-gallery__caption">
+        <span class="sp-gallery__name">Chicken Parm</span>
+        <span class="sp-gallery__divider" aria-hidden="true"></span>
+        <span class="sp-gallery__cat">Food</span>
+      </div>
+    </li>
+
+    <li class="sp-gallery__item" data-category="food">
+      <figure class="sp-gallery__figure">
+        <img src="img/gallery/ClassicBurger-400x284.jpg" alt="Classic burger" width="400" height="284" loading="lazy">
+      </figure>
+      <div class="sp-gallery__caption">
+        <span class="sp-gallery__name">Classic Burger</span>
+        <span class="sp-gallery__divider" aria-hidden="true"></span>
+        <span class="sp-gallery__cat">Food</span>
+      </div>
+    </li>
+
+    <li class="sp-gallery__item" data-category="food">
+      <figure class="sp-gallery__figure">
+        <img src="img/gallery/BBFishFry-400x284.jpg" alt="Fish fry" width="400" height="284" loading="lazy">
+      </figure>
+      <div class="sp-gallery__caption">
+        <span class="sp-gallery__name">Friday Fish Fry</span>
+        <span class="sp-gallery__divider" aria-hidden="true"></span>
+        <span class="sp-gallery__cat">Food</span>
+      </div>
+    </li>
+
+    <li class="sp-gallery__item" data-category="food">
+      <figure class="sp-gallery__figure">
+        <img src="img/gallery/CrabCakeDinner-400x284.jpg" alt="Crab cake dinner" width="400" height="284" loading="lazy">
+      </figure>
+      <div class="sp-gallery__caption">
+        <span class="sp-gallery__name">Crab Cake Dinner</span>
+        <span class="sp-gallery__divider" aria-hidden="true"></span>
+        <span class="sp-gallery__cat">Food</span>
+      </div>
+    </li>
+
+    <li class="sp-gallery__item" data-category="food">
+      <figure class="sp-gallery__figure">
+        <img src="img/gallery/SignatureSalad-400x284.jpg" alt="Signature salad" width="400" height="284" loading="lazy">
+      </figure>
+      <div class="sp-gallery__caption">
+        <span class="sp-gallery__name">Signature Salad</span>
+        <span class="sp-gallery__divider" aria-hidden="true"></span>
+        <span class="sp-gallery__cat">Food</span>
+      </div>
+    </li>
+
+    <li class="sp-gallery__item" data-category="food">
+      <figure class="sp-gallery__figure">
+        <img src="img/gallery/MozzarellaFlatBread-400x284.jpg" alt="Mozzarella flatbread" width="400" height="284" loading="lazy">
+      </figure>
+      <div class="sp-gallery__caption">
+        <span class="sp-gallery__name">Mozzarella Flatbread</span>
+        <span class="sp-gallery__divider" aria-hidden="true"></span>
+        <span class="sp-gallery__cat">Food</span>
+      </div>
+    </li>
+
+    <!-- ── Drinks ─────────────────────────────────────────────────── -->
+    <li class="sp-gallery__item" data-category="drinks">
+      <figure class="sp-gallery__figure">
+        <img src="img/gallery/Martinis2-400x284.jpg" alt="Martini cocktails" width="400" height="284" loading="lazy">
+      </figure>
+      <div class="sp-gallery__caption">
+        <span class="sp-gallery__name">Martinis</span>
+        <span class="sp-gallery__divider" aria-hidden="true"></span>
+        <span class="sp-gallery__cat">Drinks</span>
+      </div>
+    </li>
+
+    <li class="sp-gallery__item" data-category="drinks">
+      <figure class="sp-gallery__figure">
+        <img src="img/gallery/Martinis3-400x284.jpg" alt="Signature cocktails" width="400" height="284" loading="lazy">
+      </figure>
+      <div class="sp-gallery__caption">
+        <span class="sp-gallery__name">Signature Cocktails</span>
+        <span class="sp-gallery__divider" aria-hidden="true"></span>
+        <span class="sp-gallery__cat">Drinks</span>
+      </div>
+    </li>
+
+    <li class="sp-gallery__item" data-category="drinks">
+      <figure class="sp-gallery__figure">
+        <img src="img/gallery/Taps-400x284.jpg" alt="Draft beer taps" width="400" height="284" loading="lazy">
+      </figure>
+      <div class="sp-gallery__caption">
+        <span class="sp-gallery__name">Draft Taps</span>
+        <span class="sp-gallery__divider" aria-hidden="true"></span>
+        <span class="sp-gallery__cat">Drinks</span>
+      </div>
+    </li>
+
+    <li class="sp-gallery__item" data-category="drinks">
+      <figure class="sp-gallery__figure">
+        <img src="img/gallery/Bottles-400x284.jpg" alt="Bottle selection" width="400" height="284" loading="lazy">
+      </figure>
+      <div class="sp-gallery__caption">
+        <span class="sp-gallery__name">Bottle Selection</span>
+        <span class="sp-gallery__divider" aria-hidden="true"></span>
+        <span class="sp-gallery__cat">Drinks</span>
+      </div>
+    </li>
+
+    <!-- ── Bar & Lounge ───────────────────────────────────────────── -->
+    <li class="sp-gallery__item" data-category="bar">
+      <figure class="sp-gallery__figure">
+        <img src="img/gallery/FullBar-400x284.jpg" alt="Full bar" width="400" height="284" loading="lazy">
+      </figure>
+      <div class="sp-gallery__caption">
+        <span class="sp-gallery__name">The Full Bar</span>
+        <span class="sp-gallery__divider" aria-hidden="true"></span>
+        <span class="sp-gallery__cat">Bar &amp; Lounge</span>
+      </div>
+    </li>
+
+    <li class="sp-gallery__item" data-category="bar">
+      <figure class="sp-gallery__figure">
+        <img src="img/gallery/BarTop-400x284.jpg" alt="Bar top seating" width="400" height="284" loading="lazy">
+      </figure>
+      <div class="sp-gallery__caption">
+        <span class="sp-gallery__name">Bar Top</span>
+        <span class="sp-gallery__divider" aria-hidden="true"></span>
+        <span class="sp-gallery__cat">Bar &amp; Lounge</span>
+      </div>
+    </li>
+
+    <li class="sp-gallery__item" data-category="bar">
+      <figure class="sp-gallery__figure">
+        <img src="img/gallery/BarRoom1-400x284.jpg" alt="Bar room" width="400" height="284" loading="lazy">
+      </figure>
+      <div class="sp-gallery__caption">
+        <span class="sp-gallery__name">Bar Room</span>
+        <span class="sp-gallery__divider" aria-hidden="true"></span>
+        <span class="sp-gallery__cat">Bar &amp; Lounge</span>
+      </div>
+    </li>
+
+    <li class="sp-gallery__item" data-category="bar">
+      <figure class="sp-gallery__figure">
+        <img src="img/gallery/bar1-1000-400x284.jpg" alt="Bar seating area" width="400" height="284" loading="lazy">
+      </figure>
+      <div class="sp-gallery__caption">
+        <span class="sp-gallery__name">Bar Seating</span>
+        <span class="sp-gallery__divider" aria-hidden="true"></span>
+        <span class="sp-gallery__cat">Bar &amp; Lounge</span>
+      </div>
+    </li>
+
+    <li class="sp-gallery__item" data-category="bar">
+      <figure class="sp-gallery__figure">
+        <img src="img/gallery/Mainbar-400x284.jpg" alt="Main bar" width="400" height="284" loading="lazy">
+      </figure>
+      <div class="sp-gallery__caption">
+        <span class="sp-gallery__name">Main Bar</span>
+        <span class="sp-gallery__divider" aria-hidden="true"></span>
+        <span class="sp-gallery__cat">Bar &amp; Lounge</span>
+      </div>
+    </li>
+
+    <!-- ── Banquet & Events ───────────────────────────────────────── -->
+    <li class="sp-gallery__item" data-category="banquet">
+      <figure class="sp-gallery__figure">
+        <img src="img/gallery/ban1-1000-400x284.jpg" alt="Banquet room setup" width="400" height="284" loading="lazy">
+      </figure>
+      <div class="sp-gallery__caption">
+        <span class="sp-gallery__name">Banquet Room</span>
+        <span class="sp-gallery__divider" aria-hidden="true"></span>
+        <span class="sp-gallery__cat">Banquet &amp; Events</span>
+      </div>
+    </li>
+
+    <li class="sp-gallery__item" data-category="banquet">
+      <figure class="sp-gallery__figure">
+        <img src="img/gallery/ban2-1000-400x284.jpg" alt="Banquet dining setup" width="400" height="284" loading="lazy">
+      </figure>
+      <div class="sp-gallery__caption">
+        <span class="sp-gallery__name">Banquet Dining</span>
+        <span class="sp-gallery__divider" aria-hidden="true"></span>
+        <span class="sp-gallery__cat">Banquet &amp; Events</span>
+      </div>
+    </li>
+
+    <li class="sp-gallery__item" data-category="banquet">
+      <figure class="sp-gallery__figure">
+        <img src="img/gallery/ban5-1000-400x284.jpg" alt="Event venue interior" width="400" height="284" loading="lazy">
+      </figure>
+      <div class="sp-gallery__caption">
+        <span class="sp-gallery__name">Event Venue</span>
+        <span class="sp-gallery__divider" aria-hidden="true"></span>
+        <span class="sp-gallery__cat">Banquet &amp; Events</span>
+      </div>
+    </li>
+
+    <li class="sp-gallery__item" data-category="banquet">
+      <figure class="sp-gallery__figure">
+        <img src="img/gallery/ban7-1000-400x284.jpg" alt="Banquet hall" width="400" height="284" loading="lazy">
+      </figure>
+      <div class="sp-gallery__caption">
+        <span class="sp-gallery__name">Banquet Hall</span>
+        <span class="sp-gallery__divider" aria-hidden="true"></span>
+        <span class="sp-gallery__cat">Banquet &amp; Events</span>
+      </div>
+    </li>
+
+    <li class="sp-gallery__item" data-category="banquet">
+      <figure class="sp-gallery__figure">
+        <img src="img/gallery/CaitandJustin-400x284.jpg" alt="Wedding reception" width="400" height="284" loading="lazy">
+      </figure>
+      <div class="sp-gallery__caption">
+        <span class="sp-gallery__name">Wedding Reception</span>
+        <span class="sp-gallery__divider" aria-hidden="true"></span>
+        <span class="sp-gallery__cat">Banquet &amp; Events</span>
+      </div>
+    </li>
+
+    <li class="sp-gallery__item" data-category="banquet">
+      <figure class="sp-gallery__figure">
+        <img src="img/gallery/BarPartySetUp2-400x284.jpg" alt="Party setup at the bar" width="400" height="284" loading="lazy">
+      </figure>
+      <div class="sp-gallery__caption">
+        <span class="sp-gallery__name">Party Setup</span>
+        <span class="sp-gallery__divider" aria-hidden="true"></span>
+        <span class="sp-gallery__cat">Banquet &amp; Events</span>
+      </div>
+    </li>
+
+    <li class="sp-gallery__item" data-category="banquet">
+      <figure class="sp-gallery__figure">
+        <img src="img/gallery/ban10-1000-400x284.jpg" alt="Banquet table setting" width="400" height="284" loading="lazy">
+      </figure>
+      <div class="sp-gallery__caption">
+        <span class="sp-gallery__name">Table Setting</span>
+        <span class="sp-gallery__divider" aria-hidden="true"></span>
+        <span class="sp-gallery__cat">Banquet &amp; Events</span>
+      </div>
+    </li>
+
+    <li class="sp-gallery__item" data-category="banquet">
+      <figure class="sp-gallery__figure">
+        <img src="img/gallery/CoveredBanquetEntrance-400x284.jpg" alt="Covered banquet entrance" width="400" height="284" loading="lazy">
+      </figure>
+      <div class="sp-gallery__caption">
+        <span class="sp-gallery__name">Banquet Entrance</span>
+        <span class="sp-gallery__divider" aria-hidden="true"></span>
+        <span class="sp-gallery__cat">Banquet &amp; Events</span>
+      </div>
+    </li>
+
+    <!-- ── Restaurant & Exterior ──────────────────────────────────── -->
+    <li class="sp-gallery__item" data-category="restaurant">
+      <figure class="sp-gallery__figure">
+        <img src="img/gallery/Exterior1-400x284.jpg" alt="Restaurant exterior" width="400" height="284" loading="lazy">
+      </figure>
+      <div class="sp-gallery__caption">
+        <span class="sp-gallery__name">Our Exterior</span>
+        <span class="sp-gallery__divider" aria-hidden="true"></span>
+        <span class="sp-gallery__cat">Restaurant</span>
+      </div>
+    </li>
+
+    <li class="sp-gallery__item" data-category="restaurant">
+      <figure class="sp-gallery__figure">
+        <img src="img/gallery/FrontEntrance-400x284.jpg" alt="Front entrance" width="400" height="284" loading="lazy">
+      </figure>
+      <div class="sp-gallery__caption">
+        <span class="sp-gallery__name">Front Entrance</span>
+        <span class="sp-gallery__divider" aria-hidden="true"></span>
+        <span class="sp-gallery__cat">Restaurant</span>
+      </div>
+    </li>
+
+    <li class="sp-gallery__item" data-category="restaurant">
+      <figure class="sp-gallery__figure">
+        <img src="img/gallery/Patio-400x284.jpg" alt="Outdoor patio" width="400" height="284" loading="lazy">
+      </figure>
+      <div class="sp-gallery__caption">
+        <span class="sp-gallery__name">Outdoor Patio</span>
+        <span class="sp-gallery__divider" aria-hidden="true"></span>
+        <span class="sp-gallery__cat">Restaurant</span>
+      </div>
+    </li>
+
+    <li class="sp-gallery__item" data-category="restaurant">
+      <figure class="sp-gallery__figure">
+        <img src="img/gallery/rest1-1000-400x284.jpg" alt="Restaurant dining room" width="400" height="284" loading="lazy">
+      </figure>
+      <div class="sp-gallery__caption">
+        <span class="sp-gallery__name">Dining Room</span>
+        <span class="sp-gallery__divider" aria-hidden="true"></span>
+        <span class="sp-gallery__cat">Restaurant</span>
+      </div>
+    </li>
+
+    <li class="sp-gallery__item" data-category="restaurant">
+      <figure class="sp-gallery__figure">
+        <img src="img/gallery/GardenRoomSign-400x284.jpg" alt="Garden room sign" width="400" height="284" loading="lazy">
+      </figure>
+      <div class="sp-gallery__caption">
+        <span class="sp-gallery__name">Garden Room</span>
+        <span class="sp-gallery__divider" aria-hidden="true"></span>
+        <span class="sp-gallery__cat">Restaurant</span>
+      </div>
+    </li>
+
+    <li class="sp-gallery__item" data-category="restaurant">
+      <figure class="sp-gallery__figure">
+        <img src="img/gallery/ExteriorPlusSign-400x284.jpg" alt="Exterior sign" width="400" height="284" loading="lazy">
+      </figure>
+      <div class="sp-gallery__caption">
+        <span class="sp-gallery__name">Our Sign</span>
+        <span class="sp-gallery__divider" aria-hidden="true"></span>
+        <span class="sp-gallery__cat">Restaurant</span>
+      </div>
+    </li>
+
+  </ul>
+
+  <div class="sp-gallery__footer">
+    <a href="#" class="btn btn-primary">Book an Event</a>
+  </div>
+
+</section>
+</BaseLayout>

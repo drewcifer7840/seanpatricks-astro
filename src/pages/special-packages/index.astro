@@ -1,0 +1,99 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import MenuPackage from '../../components/MenuPackage.astro';
+
+const title = "Special Packages — Sean Patrick's Emerald Isle";
+const description = undefined;
+const loadMap = true;
+
+const academicAthletic = {
+  label: 'Academic &amp; Athletic Package',
+  meta: 'Available Sunday – Thursday',
+  price: '$22',
+  priceUnit: 'per person',
+  subSections: [
+    {
+      title: 'Menu Includes',
+      items: [
+        'Chef Salad',
+        'Penne Pasta with Broccoli or House Red Sauce',
+        '<strong>Choice of Two Meats:</strong>',
+        '&nbsp;&nbsp;&nbsp;&nbsp;Top Round of Beef',
+        '&nbsp;&nbsp;&nbsp;&nbsp;Oven Roasted or BBQ Chicken',
+        '&nbsp;&nbsp;&nbsp;&nbsp;Chicken Fingers',
+        '&nbsp;&nbsp;&nbsp;&nbsp;Roasted Breast of Turkey',
+        '&nbsp;&nbsp;&nbsp;&nbsp;Meatballs/red sauce',
+      ],
+    },
+    {
+      title: 'Vegetable Side',
+      type: 'sides' as const,
+      items: ['Green beans', 'Glazed carrots', 'Vegetable medley', 'Corn'],
+    },
+    {
+      title: 'Potato Side',
+      type: 'sides' as const,
+      items: ['Herb-roasted potatoes', 'Parsley buttered', 'Mashed', 'Baby-red smashed', 'Cheesy potatoes'],
+    },
+    {
+      title: 'Beverages &amp; Dessert',
+      items: [
+        'Warm rolls with butter',
+        'Coffee, Decaf and Tea',
+        'Complimentary Soft Drinks',
+        'Ice Cream with choice of topping or Sherbet',
+      ],
+    },
+  ],
+};
+
+const buffaloBuffet = {
+  label: 'Buffalo Buffet',
+  prices: [
+    { amount: '$27', unit: 'per person' },
+    { amount: '$18', unit: 'Ages 4–10' },
+  ],
+  ruleNote: 'Ages 4-10: <strong>$18</strong>',
+  subSections: [
+    {
+      title: 'Salads &amp; Sides',
+      items: ['Chef Salad', 'Cole Slaw', 'Vegetable Tray'],
+    },
+    {
+      title: 'Entrees',
+      items: ['Breaded Fish Fry', 'Chicken Wings', 'Mini Beef on Weck'],
+    },
+    {
+      title: 'Pasta',
+      items: ['Penne Pasta in House Red Sauce'],
+    },
+    {
+      title: 'Beverages',
+      items: ['Coffee', 'Decaf', 'Tea'],
+    },
+  ],
+};
+
+const packages = [
+  {
+    label: 'Special Packages',
+    isFirst: true,
+    meta: 'Exclusive packages for your special event.',
+    intro: "Sean Patrick's Restaurant offers exclusive special packages designed for your unique events. Whether it's an academic gathering or athletic celebration, we have the perfect menu to suit your needs. Food is packaged in large containers making it easy to pick up. Final payment must be received at the time of pickup.",
+    contact: {
+      name: 'Liz Dodge',
+      title: 'Catering Director',
+      phone: '716-636-1709',
+      text: 'Questions? Reach out before booking.',
+    },
+  },
+  academicAthletic,
+  buffaloBuffet,
+];
+---
+
+<BaseLayout title={title} loadMap={loadMap}>
+<div class="sp-pkg">
+  {packages.map((pkg, i) => <MenuPackage pkg={pkg} isFirst={i === 0} />)}
+</div>
+</BaseLayout>
