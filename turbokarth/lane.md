@@ -10,15 +10,18 @@
 **Stack:** Astro 6.4.6, Node 22.12+, zero integrations configured. 3-tier CSS architecture in `src/styles/`.
 **Memory system:** TurboKarth — `turbokarth/{lane.md, journal/, breadcrumbs.md, summary.md}` + `AGENTS.md` at project root. Installed 2026-06-16.
 
-## Current State (as of 2026-06-17 20:38)
-**Site is fully production-ready, under git, on GitHub, working CMS, and meta tags are now wired through to the page head.** Pages CMS hosted at app.pagescms.org is connected to the GitHub repo with a structured-form config (`.pages.yml`, 390 lines) that mirrors the Zod schema. Restaurant owner can now edit menus through a real form UI; edits commit to the .md files in GitHub automatically. The full round-trip (CMS edit → commit → .md → dev server hot reload → visible in browser) is verified working.
+## Current State (as of 2026-06-18 15:56)
+**Site is fully production-ready, under git, on GitHub, working CMS, meta tags live-editable, AND content layer refactored into 4 CPTs.** The single `menus` content collection was split into `menu` (lunch/dinner/drinks), `banquet_package` (banquet-lunch/banquet-dinner/cocktail-parties/breakfast), `beverage_service` (banquet-beverage), and `holiday_special` (holiday-easter/holiday-mothers-day). All 10 .md files moved to per-CPT folders, all 11 page templates updated, `.pages.yml` split into 4 collection blocks. Build green: 24 pages, 14.5s, no errors.
 
 **Open work:**
-- 🟢 **Cloudflare Pages deploy** — user's CF account exists (used for proxy elsewhere), but the site is not yet deployed there. CF Pages would auto-deploy on every commit to main.
-- 🟢 **Owner invite** — Pages CMS supports email invites, so the owner doesn't need a GitHub account. 30 sec in the Pages CMS UI.
-- 🟡 **CMS scope question (NEW — needs design decision)** — see "Scoping the CMS" section below. Should the client have power to add/remove entire sections and packages, or should the CMS be scoped to "edit existing content" only? User raised this; decision pending.
-- 🟢 **End-to-end test** — DONE. The 35→36 summary edit on banquet-lunch and the "MAX" insertion on dinner-menu both round-tripped successfully.
-- 🟢 **Meta tags wired** — DONE (commit `5dd9af3`). All 8 package pages now read `data.title` and `data.summary` from frontmatter and pass them to BaseLayout. `<title>` and `<meta name="description">` are now live-editable through Pages CMS.
+- 🟡 **Commit + push CPT refactor** — local-only, not yet on GitHub. Foundation for everything else below.
+- 🟢 **Cloudflare Pages deploy** — user's CF account exists. CF Pages would auto-deploy on every push to main.
+- 🟢 **Owner invite** — Pages CMS supports email invites, 30 sec in the UI.
+- 🟡 **Smoke-test Pages CMS UI** — verify the 4 collection blocks render with the right field scoping per entry type. Not yet loaded in browser.
+- 🟡 **`catering_event` CPT migration** — 5 catering pages (catering, packages, special-packages, wedding, brunch-buffet) still have local data. Move to a new collection.
+- 🟢 **End-to-end test** — DONE. Round-trip (CMS edit → .md commit → dev server hot reload → visible in browser) verified.
+- 🟢 **Meta tags wired** — DONE (commit `5dd9af3`, local-only). All 8 package pages now read `data.title` and `data.summary` from frontmatter.
+- 🟢 **Badge taxonomy** — DONE (commit `c6d33b5`, local-only). The "vocabulary" pattern is the template for future CPT work.
 
 **File structure now (24 routes total):**
 - 21 page folders: about, banquet-beverage, banquet-cocktails, banquet-dinner, banquet-lunch, breakfast, brunch-buffet, catering, cocktail-parties, contact, dinner-menu, drinks-menu, gallery, holiday-easter, holiday-mothers-day, hours, lunch-menu, packages, special-packages, terms, wedding
@@ -26,7 +29,7 @@
 - The home page is at top-level on purpose — `src/pages/index.astro` is the Astro convention for the site root, NOT `src/pages/index/index.astro` (which would map to `/index/` and 404 the home link in the nav header). Learned this the hard way on 2026-06-17.
 - The 5 page folders created in the 06-16 evening (catering, packages, special-packages, wedding, brunch-buffet) contain only `index.astro` — no `*.css` file, since all their styles are in `MenuPackage.astro`
 - 8 package pages (banquet-*, breakfast, holiday-easter, holiday-mothers-day, cocktail-parties) have small per-page `*.css` files (~400 bytes each) that hold just the `.sp-pkg` wrapper style. This is leftover from the 06-16 page-folder refactor and is technically a small duplication. Could be cleaned up by having MenuPackage render the wrapper itself; not done yet.
-- `.pages.yml` at the repo root — Pages CMS schema config (390 lines, structured form for all menus). May be revised in a future session to scope down the destructive controls (see "Scoping the CMS" section).
+- **Content layer (post 2026-06-18 refactor):** `src/content/{menu,banquet_package,beverage_service,holiday_special}/` — 4 CPTs, 10 .md files total. Each CPT has its own Zod schema in `src/content.config.ts` and its own collection block in `.pages.yml` (4 blocks total). Old `src/content/menus/` folder is gone.
 
 ## Goals
 - Production-ready restaurant site deployable from this repo

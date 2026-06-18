@@ -8,8 +8,8 @@ const title = "Drinks Menu — Sean Patrick's Emerald Isle";
 const description = undefined;
 const loadMap = true;
 
-const entry = await getEntry('menus', 'drinks');
-if (!entry) throw new Error('Missing menu content: src/content/menus/drinks.md');
+const entry = await getEntry('menu', 'drinks');
+if (!entry) throw new Error('Missing menu content: src/content/menu/drinks.md');
 const { data } = entry;
 ---
 

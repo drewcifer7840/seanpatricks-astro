@@ -6,8 +6,8 @@ import './banquet-dinner.css';
 
 const loadMap = true;
 
-const entry = await getEntry('menus', 'banquet-dinner');
-if (!entry) throw new Error('Missing menu content: src/content/menus/banquet-dinner.md');
+const entry = await getEntry('banquet_package', 'banquet-dinner');
+if (!entry) throw new Error('Missing menu content: src/content/banquet_package/banquet-dinner.md');
 const { data } = entry;
 const title = data.title ?? "Banquet Dinner — Sean Patrick's Emerald Isle";
 const description = data.summary;

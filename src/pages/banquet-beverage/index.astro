@@ -6,8 +6,8 @@ import './banquet-beverage.css';
 
 const loadMap = true;
 
-const entry = await getEntry('menus', 'banquet-beverage');
-if (!entry) throw new Error('Missing menu content: src/content/menus/banquet-beverage.md');
+const entry = await getEntry('beverage_service', 'banquet-beverage');
+if (!entry) throw new Error('Missing menu content: src/content/beverage_service/banquet-beverage.md');
 const { data } = entry;
 const title = data.title ?? "Beverage Services — Sean Patrick's Emerald Isle";
 const description = data.summary;

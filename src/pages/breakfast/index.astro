@@ -6,8 +6,8 @@ import './breakfast.css';
 
 const loadMap = true;
 
-const entry = await getEntry('menus', 'breakfast');
-if (!entry) throw new Error('Missing menu content: src/content/menus/breakfast.md');
+const entry = await getEntry('banquet_package', 'breakfast');
+if (!entry) throw new Error('Missing menu content: src/content/banquet_package/breakfast.md');
 const { data } = entry;
 const title = data.title ?? "Breakfasts — Sean Patrick's Emerald Isle";
 const description = data.summary;

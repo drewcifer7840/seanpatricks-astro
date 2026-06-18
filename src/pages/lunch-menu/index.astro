@@ -9,8 +9,8 @@ const description = undefined;
 const loadMap = true;
 
 // Pull the lunch menu from the content collection — single source of truth.
-const entry = await getEntry('menus', 'lunch');
-if (!entry) throw new Error('Missing menu content: src/content/menus/lunch.md');
+const entry = await getEntry('menu', 'lunch');
+if (!entry) throw new Error('Missing menu content: src/content/menu/lunch.md');
 const { data } = entry;
 ---
 

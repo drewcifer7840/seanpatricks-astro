@@ -184,7 +184,20 @@ pm run build\ produces 24 pages in 6.4s, no errors
 - End-to-end: data file → component → CMS form → data persistence — all working
 
 ## Content duplication (2026-06-17 evening, flagged)
-- `src/pages/banquet-cocktails/index.astro` → reads from → `src/content/menus/cocktail-parties.md`
-  - Reason: `getEntry('menus', 'cocktail-parties')` call inside banquet-cocktails page
+- `src/pages/banquet-cocktails/index.astro` → reads from → `src/content/banquet_package/cocktail-parties.md`
+  - Reason: `getEntry('banquet_package', 'cocktail-parties')` call inside banquet-cocktails page
   - Effect: `/banquet-cocktails/` and `/cocktail-parties/` URLs serve the same content under different page titles
   - Pre-existing, flagged for next session — could be a redirect, a content split, or accepted as-is
+
+## CPT refactor (2026-06-18, 4-collection split)
+- `src/content.config.ts` → defines 4 collections:
+  - `menu` → `src/content/menu/` (lunch, dinner, drinks) — uses `sections[]` body
+  - `banquet_package` → `src/content/banquet_package/` (banquet-lunch, banquet-dinner, cocktail-parties, breakfast) — uses `packages[]` body
+  - `beverage_service` → `src/content/beverage_service/` (banquet-beverage) — uses lean `packages[]`
+  - `holiday_special` → `src/content/holiday_special/` (holiday-easter, holiday-mothers-day) — uses `packages[]` with `priceTable`
+- `.pages.yml` → 4 collection blocks, one per CPT, each with focused field groups
+- Shared schema fragments: `badgeEnum`, `menuItem`, `menuSection`, `packageEntry` defined once, composed into 4 different schemas
+- 11 page templates updated: `getEntry('menus', '<id>')` → `getEntry('<new-collection>', '<id>')`
+- Old `src/content/menus/` folder removed (moves only, no data loss)
+- Build: 24 pages, 14.5s, no errors
+- Local-only, not yet committed or pushed to GitHub

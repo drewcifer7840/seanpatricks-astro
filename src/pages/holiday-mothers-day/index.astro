@@ -6,8 +6,8 @@ import './holiday-mothers-day.css';
 
 const loadMap = true;
 
-const entry = await getEntry('menus', 'holiday-mothers-day');
-if (!entry) throw new Error('Missing menu content: src/content/menus/holiday-mothers-day.md');
+const entry = await getEntry('holiday_special', 'holiday-mothers-day');
+if (!entry) throw new Error('Missing menu content: src/content/holiday_special/holiday-mothers-day.md');
 const { data } = entry;
 const title = data.title ?? "Mother's Day Brunch — Sean Patrick's Emerald Isle";
 const description = data.summary;

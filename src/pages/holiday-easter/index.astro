@@ -6,8 +6,8 @@ import './holiday-easter.css';
 
 const loadMap = true;
 
-const entry = await getEntry('menus', 'holiday-easter');
-if (!entry) throw new Error('Missing menu content: src/content/menus/holiday-easter.md');
+const entry = await getEntry('holiday_special', 'holiday-easter');
+if (!entry) throw new Error('Missing menu content: src/content/holiday_special/holiday-easter.md');
 const { data } = entry;
 const title = data.title ?? "Easter Dinner Buffet — Sean Patrick's Emerald Isle";
 const description = data.summary;

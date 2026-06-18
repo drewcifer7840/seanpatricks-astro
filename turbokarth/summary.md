@@ -4,6 +4,18 @@
 
 ---
 
+## 2026-06-18 (CPT refactor sprint: 4 collections)
+
+**Today we completed:** The big content-layer refactor. Split the single `menus` collection into 4 separate Astro content collections (CPTs in WP terms): `menu` (lunch/dinner/drinks), `banquet_package` (banquet-lunch, banquet-dinner, cocktail-parties, breakfast), `beverage_service` (banquet-beverage), and `holiday_special` (holiday-easter, holiday-mothers-day). Updated `src/content.config.ts`, moved all 10 .md files into per-CPT folders, updated 11 page templates' `getEntry` calls, and split `.pages.yml` into 4 collection blocks with focused field groups. Build green: 24 pages, 14.5s, no errors.
+
+**We solved:** The "client shouldn't see layout discriminators or structural metadata" problem. The Pages CMS UI now only shows fields relevant to the entry being edited — a `menu` entry doesn't show `packages` as editable, a `holiday_special` entry shows `priceTable`, etc. Each CPT is a focused content category with its own field groups, matching the WP-CPT mental model the user wants.
+
+**We are now positioned to:** Commit + push the refactor, verify Pages CMS picks up the new collection blocks, then deploy to Cloudflare Pages. The "CMS edit → .md commit → CF Pages auto-deploy → live site" round-trip is one push + one deploy + one invite away.
+
+**Recommendation:** Next session: commit + push first (foundation), then smoke-test the Pages CMS UI to confirm the per-CPT field scoping works as expected, then deploy to Cloudflare Pages. The 5 catering pages and 2 hand-coded holiday pages (ny-eve, st-paddys) still need migration to a `catering_event` CPT — that's a separate bigger task.
+
+---
+
 ## 2026-06-17 (evening session: meta tags + CMS scope insight)
 
 **Today we completed:** Closed the loop on the Pages CMS round-trip. The user stress-tested two edits — adding "MAX" to a dinner-menu item (worked) and changing "35" to "36" in the banquet-lunch summary (committed, but the page didn't visibly change). The user correctly diagnosed it: that field was metadata the page wasn't reading. Fixed all 8 package pages to read `data.title` and `data.summary` from frontmatter and pass them through to BaseLayout, so `<title>` and `<meta name="description">` are now live-editable. Build clean, verified in generated HTML. Committed locally as `5dd9af3`.
