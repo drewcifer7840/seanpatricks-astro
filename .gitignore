@@ -15,6 +15,11 @@ pnpm-debug.log*
 # dev server log files (created by background `npm run dev` processes)
 .dev-server.log
 .dev-server.err
+dev-server.out.log
+dev-server.err.log
+
+# Mavis-created dev server start scripts
+.mavis-start-dev.ps1
 
 # environment variables
 .env

@@ -14,14 +14,14 @@
 **Site is fully production-ready, under git, on GitHub, working CMS, meta tags live-editable, AND content layer refactored into 4 CPTs.** The single `menus` content collection was split into `menu` (lunch/dinner/drinks), `banquet_package` (banquet-lunch/banquet-dinner/cocktail-parties/breakfast), `beverage_service` (banquet-beverage), and `holiday_special` (holiday-easter/holiday-mothers-day). All 10 .md files moved to per-CPT folders, all 11 page templates updated, `.pages.yml` split into 4 collection blocks. Build green: 24 pages, 14.5s, no errors.
 
 **Open work:**
-- 🟡 **Commit + push CPT refactor** — local-only, not yet on GitHub. Foundation for everything else below.
-- 🟢 **Cloudflare Pages deploy** — user's CF account exists. CF Pages would auto-deploy on every push to main.
+- 🟢 **Cloudflare Pages deploy** — user's CF account exists. CF Pages would auto-deploy on every push to main. **This is the next big step.**
 - 🟢 **Owner invite** — Pages CMS supports email invites, 30 sec in the UI.
 - 🟡 **Smoke-test Pages CMS UI** — verify the 4 collection blocks render with the right field scoping per entry type. Not yet loaded in browser.
 - 🟡 **`catering_event` CPT migration** — 5 catering pages (catering, packages, special-packages, wedding, brunch-buffet) still have local data. Move to a new collection.
 - 🟢 **End-to-end test** — DONE. Round-trip (CMS edit → .md commit → dev server hot reload → visible in browser) verified.
-- 🟢 **Meta tags wired** — DONE (commit `5dd9af3`, local-only). All 8 package pages now read `data.title` and `data.summary` from frontmatter.
-- 🟢 **Badge taxonomy** — DONE (commit `c6d33b5`, local-only). The "vocabulary" pattern is the template for future CPT work.
+- 🟢 **Meta tags wired** — DONE (commit `5dd9af3`). All 8 package pages now read `data.title` and `data.summary` from frontmatter.
+- 🟢 **Badge taxonomy** — DONE (commit `c6d33b5`). The "vocabulary" pattern is the template for future CPT work.
+- 🟢 **CPT refactor shipped** — DONE (commit `5d20b17`, **pushed to GitHub**). Build green, 24 pages, 14.5s. Local = origin/main = `5d20b17`.
 
 **File structure now (24 routes total):**
 - 21 page folders: about, banquet-beverage, banquet-cocktails, banquet-dinner, banquet-lunch, breakfast, brunch-buffet, catering, cocktail-parties, contact, dinner-menu, drinks-menu, gallery, holiday-easter, holiday-mothers-day, hours, lunch-menu, packages, special-packages, terms, wedding
