@@ -158,16 +158,20 @@ pm run build\ produces 24 pages in 6.4s, no errors
 - Triggered by user stress test: changed `summary` on banquet-lunch from "groups of 35 or more" → "groups of 36 or more" in Pages CMS. Edit committed cleanly, but the rendered page didn't visibly change → user correctly diagnosed it as metadata → fix landed
 - The "MAX" insertion on dinner-menu worked because it was an `items[].name` edit (rendered via `MenuSection.astro`), not a frontmatter field
 
-## Pages CMS scoping insight (2026-06-17 evening, REFINED)
+## Pages CMS scoping insight (2026-06-17 evening, REFINED to CPT framework)
 - User reflection: the client isn't expecting a CMS at all. The dev is building one as a nice-to-have.
 - "Some powers best be not accessible to the uninitiated" — user's framing
-- **Final scope:** client is a "data entry clerk, not a content designer." Only powers:
-  - Edit individual item cards (name, description, price)
-  - Add or remove items from existing sections
-- **NOT** in the client UI: section titles, package labels/meta, page title/summary/service/priceTier, section add/remove, package add/remove, layout type, structural metadata
-- **Mental model:** dev = architect (sets up structure), client = data entry (fills in items within structure)
-- **Implementation subtlety:** can't just *hide* fields in `.pages.yml` because Pages CMS will drop them on save. Use `readonly: true` instead for fields we want to preserve but not expose for editing (e.g. `priceOptions`, `signature`, `region`)
-- Decision: settled. Implementation pending — `.pages.yml` rewrite queued for next session
+- **Final framework:** Custom Post Types (CPTs) in WordPress parlance. Each CPT is a focused content category with its own field groups.
+- **CPT breakdown (proposed, not yet finalized):**
+  - `menu` (dine-in: lunch, dinner, drinks) → client edits items only
+  - `banquet_package` (banquet-lunch, banquet-dinner, banquet-cocktails, breakfast, cocktail-parties) → client edits items, subSection headings, package meta/ruleNote, package price
+  - `beverage_service` (banquet-beverage) → client edits prices, package labels
+  - `holiday_special` (easter, mothers-day, ny-eve, st-paddys) → client edits items, prices, dates
+  - `catering_event` (catering, packages, wedding, brunch-buffet — currently LOCAL, needs migration) → TBD
+- **Architecture:** split `src/content/menus/` into 4-5 collections, each with its own Zod schema in `content.config.ts` and its own block in `.pages.yml`. Pages CMS supports multiple collections in one config. Astro 6 supports multiple collections in `content.config.ts`.
+- **Trade-off:** this is a real refactor, not just trimming fields. Bigger than the earlier "scope down the .pages.yml" proposal. But it scales.
+- **Pending decisions:** shared vs separate item schema for menu/banquet, where feature flags (vegan/GF) live, final CPT split
+- **Mental model:** dev = architect (sets up structure), client = data entry (fills in items within structure). Each CPT is a focused category with its own field groups.
 
 ## Content duplication (2026-06-17 evening, flagged)
 - `src/pages/banquet-cocktails/index.astro` → reads from → `src/content/menus/cocktail-parties.md`

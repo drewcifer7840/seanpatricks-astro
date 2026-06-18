@@ -78,38 +78,40 @@
 - Test the `string` field with `list: true` for simple string arrays (group items, info card items) — uncertain Pages CMS support
 - Invite the restaurant owner to Pages CMS via email (30 sec in the UI)
 
-## Scoping the CMS (NEW — open design decision, REFINED)
+## Scoping the CMS (NEW — open design decision, REFINED to CPT framework)
 
-User reflection (2026-06-17 evening, refined): the client isn't expecting a CMS at all. The dev is building one as a nice-to-have. The right shape is "data entry clerk, not content designer" — the client only needs to manage the items themselves, not the structure around them.
+User reflection (2026-06-17 evening, refined to its final framework): the CMS should be modeled as **Custom Post Types (CPTs)** in WordPress parlance. Each CPT is a focused category of content with its own field groups.
 
-**Final scope-down (per user's last clarification):**
+**The framework (user's framing):**
+- **CPT (focused category)** = a content type with its own schema
+- **Field groups** = subsets of the CPT's fields, defining what the client can edit
+- Different CPTs have different field groups — the client only sees fields relevant to that content type
 
-The client should ONLY be able to:
-- Edit individual item cards (name, description, price)
-- Add or remove items from existing sections
+**Proposed CPT breakdown (user + agent co-design, not yet finalized):**
 
-The client should NOT be able to:
-- Edit section titles / headings / eyebrows / non-variable content headers
-- Edit package labels, prices, meta, ruleNote
-- Edit page title, summary, service, priceTier
-- Add or remove sections
-- Add or remove packages
-- Change layout types (items / sides / pricelist / wine / info / promo)
-- Change any structural metadata
+| CPT | Current files | Client field groups |
+|---|---|---|
+| `menu` (dine-in) | lunch, dinner, drinks | items only (name, description, price, feature flags) |
+| `banquet_package` | banquet-lunch, banquet-dinner, banquet-cocktails, breakfast, cocktail-parties | items, subSection headings, package meta/ruleNote, package price |
+| `beverage_service` | banquet-beverage | prices, package labels |
+| `holiday_special` | easter, mothers-day, ny-eve, st-paddys | items, prices, dates |
+| `catering_event` | catering, packages, wedding, brunch-buffet (currently LOCAL, needs migration) | TBD |
 
-**The mental model:** dev = architect (sets up structure), client = data entry (fills in items within the structure the dev provides).
+**Architecture consequences:**
+- Split the 10 .md files into 4-5 folders under `src/content/`
+- Each collection has its own Zod schema in `src/content.config.ts`
+- Each collection has its own block in `.pages.yml`
+- Each page template reads from the right collection
+- The 5 catering-pattern pages (catering, packages, wedding, brunch-buffet, special-packages) need migration from local data to the `catering_event` CPT
 
-**Implementation subtlety:** can't just *hide* fields in `.pages.yml` because Pages CMS will drop them on save. Use `readonly: true` instead for fields we want to preserve but not expose for editing (e.g. `priceOptions`, `signature`, `region` on items). The client sees the values but can't change them.
+**Trade-off:** this is a real refactor, not just trimming fields. Bigger than my earlier "scope down the .pages.yml" proposal. But it scales — the CMS UI shows each entry only with fields relevant to its type.
 
-**The actual client form will look like:**
-- Click a menu page (e.g. "Dinner Menu")
-- See a list of sections, headings visible as labels (not editable)
-- Within each section, see a list of items
-- Each item shows: name, description, price — and these are the only fields they can edit
-- "Add item" / "Remove item" buttons on each section
-- That's it. No other form fields visible.
+**Specific decisions still pending:**
+- Should `menu` and `banquet_package` share an item schema (with a `kind` flag) or have separate schemas? (My lean: separate schemas, different field groups)
+- Where do feature flags (vegan, GF, etc.) live? Schema doesn't have them yet. Add to `menu` only? Both? Where do they render?
+- Does the CPT breakdown above match user's mental model, or split differently?
 
-**Pending:** when to do the `.pages.yml` rewrite. User hasn't asked for it yet — design call is settled, just queued.
+**Pending:** when to do the refactor. Design framework settled, implementation queued.
 
 ## Working Style
 - **User:** warm, direct, judgment-driven. Hates formulaic transition words and bullet-point intros. Gave explicit license: "do it your way with your suggestions" (don't ask permission for mechanical cleanups).
