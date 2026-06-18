@@ -158,13 +158,16 @@ pm run build\ produces 24 pages in 6.4s, no errors
 - Triggered by user stress test: changed `summary` on banquet-lunch from "groups of 35 or more" → "groups of 36 or more" in Pages CMS. Edit committed cleanly, but the rendered page didn't visibly change → user correctly diagnosed it as metadata → fix landed
 - The "MAX" insertion on dinner-menu worked because it was an `items[].name` edit (rendered via `MenuSection.astro`), not a frontmatter field
 
-## Pages CMS scoping insight (2026-06-17 evening, open)
-- User reflection: the CMS may be overpowered for what a restaurant client actually needs
+## Pages CMS scoping insight (2026-06-17 evening, REFINED)
+- User reflection: the client isn't expecting a CMS at all. The dev is building one as a nice-to-have.
 - "Some powers best be not accessible to the uninitiated" — user's framing
-- Current power: edit item fields, add/remove items, add/remove sections, add/remove packages, change layout types, change page metadata
-- Recommended scope-down: keep field-level edits (name, description, price, section title, package label/price/meta/ruleNote, page title, summary). Remove add/remove sections/packages, remove layout-type selector, remove service/priceTier change
-- Implementation: edit `.pages.yml` to omit destructive controls
-- Decision pending — user-facing design call, not done in this session
+- **Final scope:** client is a "data entry clerk, not a content designer." Only powers:
+  - Edit individual item cards (name, description, price)
+  - Add or remove items from existing sections
+- **NOT** in the client UI: section titles, package labels/meta, page title/summary/service/priceTier, section add/remove, package add/remove, layout type, structural metadata
+- **Mental model:** dev = architect (sets up structure), client = data entry (fills in items within structure)
+- **Implementation subtlety:** can't just *hide* fields in `.pages.yml` because Pages CMS will drop them on save. Use `readonly: true` instead for fields we want to preserve but not expose for editing (e.g. `priceOptions`, `signature`, `region`)
+- Decision: settled. Implementation pending — `.pages.yml` rewrite queued for next session
 
 ## Content duplication (2026-06-17 evening, flagged)
 - `src/pages/banquet-cocktails/index.astro` → reads from → `src/content/menus/cocktail-parties.md`

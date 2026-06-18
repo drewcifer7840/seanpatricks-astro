@@ -78,30 +78,38 @@
 - Test the `string` field with `list: true` for simple string arrays (group items, info card items) — uncertain Pages CMS support
 - Invite the restaurant owner to Pages CMS via email (30 sec in the UI)
 
-## Scoping the CMS (NEW — open design decision)
+## Scoping the CMS (NEW — open design decision, REFINED)
 
-User reflection (2026-06-17 evening): the CMS may be overpowered for what the client actually needs. A restaurant owner typically only needs to:
-- Add new meal listings
-- Change prices
-- Change descriptions
+User reflection (2026-06-17 evening, refined): the client isn't expecting a CMS at all. The dev is building one as a nice-to-have. The right shape is "data entry clerk, not content designer" — the client only needs to manage the items themselves, not the structure around them.
 
-They probably do NOT need to:
-- Add/remove entire menu sections
-- Add/remove packages within a page
+**Final scope-down (per user's last clarification):**
+
+The client should ONLY be able to:
+- Edit individual item cards (name, description, price)
+- Add or remove items from existing sections
+
+The client should NOT be able to:
+- Edit section titles / headings / eyebrows / non-variable content headers
+- Edit package labels, prices, meta, ruleNote
+- Edit page title, summary, service, priceTier
+- Add or remove sections
+- Add or remove packages
 - Change layout types (items / sides / pricelist / wine / info / promo)
-- Change page-level structural metadata (service, priceTier)
+- Change any structural metadata
 
-User's framing: "some powers best be not accessible to the uninitiated."
+**The mental model:** dev = architect (sets up structure), client = data entry (fills in items within the structure the dev provides).
 
-**Possible paths:**
-1. **Hide destructive fields in `.pages.yml`** — keep only the "edit" controls. Simplest. Client sees a tamer form. Dev retains full power by editing .md directly.
-2. **Role-based access** — Pages CMS doesn't support roles. Would need a different CMS or a fork.
-3. **Two configs** — one for client (scoped), one for dev (full). Complexity cost.
-4. **Trust the client + revert** — give full power, watch the commits, revert bad edits. Cheapest setup, most risk.
+**Implementation subtlety:** can't just *hide* fields in `.pages.yml` because Pages CMS will drop them on save. Use `readonly: true` instead for fields we want to preserve but not expose for editing (e.g. `priceOptions`, `signature`, `region` on items). The client sees the values but can't change them.
 
-**My recommendation: Path 1.** Update `.pages.yml` to omit section/package add/remove controls and layout-type selector. Keep all field-level edits. Build a quick "owner user guide" doc showing what they can and can't do.
+**The actual client form will look like:**
+- Click a menu page (e.g. "Dinner Menu")
+- See a list of sections, headings visible as labels (not editable)
+- Within each section, see a list of items
+- Each item shows: name, description, price — and these are the only fields they can edit
+- "Add item" / "Remove item" buttons on each section
+- That's it. No other form fields visible.
 
-**Pending:** user decision on which path (or if scope-down is the right move at all).
+**Pending:** when to do the `.pages.yml` rewrite. User hasn't asked for it yet — design call is settled, just queued.
 
 ## Working Style
 - **User:** warm, direct, judgment-driven. Hates formulaic transition words and bullet-point intros. Gave explicit license: "do it your way with your suggestions" (don't ask permission for mechanical cleanups).

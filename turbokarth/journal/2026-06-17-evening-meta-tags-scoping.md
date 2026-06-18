@@ -89,37 +89,38 @@ Commit `5dd9af3` (local only, not pushed yet — user has been doing pushes via 
 
 `banquet-cocktails/index.astro` reads from `src/content/menus/cocktail-parties.md` (the `getEntry` call passes `'cocktail-parties'` as the id). The page title says "Cocktail Parties" but the URL is `/banquet-cocktails/`. So `/banquet-cocktails/` and `/cocktail-parties/` show the same content under different titles. Pre-existing. Could be a redirect, a content split, or just an intentional dual-URL setup. Flagged for next session.
 
-### 5. CMS scoping insight (NEW, open for design discussion)
+### 5. CMS scoping insight (NEW, refined to its final shape)
 
-User's framing: the CMS may be overpowered for what the client actually needs. Quote: *"they might only need the ability to add new meal listings and change prices and descriptions but I don't know that they need to be able to whip entire new menu sections... some powers best be not accessible to the uninitiated."*
+User's framing: the client isn't expecting a CMS at all. Quote: *"they're not expecting any sort of cms let alone options and powers i don't want them to have, LOL."* The dev is building one as a nice-to-have. The right shape is "data entry clerk, not content designer."
 
-**The current system lets the client do:**
-- Edit item name, description, price, price options, signature flag, region (within a section)
-- Add/remove items within a section
-- Add/remove entire sections within a page
-- Add/remove packages within a page
-- Add/remove sub-sections within a package
-- Change the layout type of a section (items / sides / pricelist / wine / info / promo)
-- Change page-level metadata: title, summary, service category, price tier
+**Final scope (the user clarified after my first proposal):**
 
-**The client does NOT have power to:**
-- Create new top-level pages (Pages CMS has no UI for adding new .md files to the collection)
-- Change URLs
-- Change the collection name
+Client should ONLY be able to:
+- Edit individual item cards (name, description, price)
+- Add or remove items from existing sections
 
-**User's instinct: scope it down.** Client probably needs:
-- Edit item name, description, price (KEEP)
-- Edit section title (KEEP)
-- Edit package label, price, meta, ruleNote (KEEP)
-- Edit page title and summary (KEEP)
+Client should NOT be able to:
+- Edit section titles / headings / eyebrows / non-variable content headers
+- Edit package labels, prices, meta, ruleNote
+- Edit page title, summary, service, priceTier
+- Add or remove sections
+- Add or remove packages
+- Change layout types
+- Change any structural metadata
 
-Client probably does NOT need:
-- Add/remove sections (REMOVE)
-- Add/remove packages (REMOVE)
-- Change layout types (REMOVE)
-- Change service category or price tier (REMOVE)
+**Mental model:** dev = architect (sets up structure), client = data entry (fills in items within the structure the dev provides). The client can't break the design because they don't touch it.
 
-**Decision pending.** User said: "we might need to rething just what sort of content we expect my client to manage." This is a design conversation, not a small tweak.
+**Implementation subtlety:** can't just *hide* fields in `.pages.yml` because Pages CMS will drop them on save. Use `readonly: true` instead for fields we want to preserve but not expose for editing (e.g. `priceOptions`, `signature`, `region` on items). Client sees the values but can't change them.
+
+**What the client form will look like:**
+- Click a menu page
+- See sections as cards, headings visible as labels (not editable)
+- Within each section, see items as sub-cards
+- Each item shows: name, description, price — these are the only editable fields
+- "Add item" / "Remove item" buttons
+- That's it. No other form fields visible.
+
+**Decision: settled.** Implementation pending.
 
 ## Files Touched
 
@@ -184,9 +185,13 @@ Two tracks for next session, in priority order:
 
 **Track A (operational, ~1 hour):** Deploy to Cloudflare Pages. Then invite the owner. Then rotate the PAT. These three together make the site genuinely live and self-managed.
 
-**Track B (design, ~1-2 hours):** Decide on the CMS scope. My recommendation: revise `.pages.yml` to remove section/package add/remove controls and the layout-type selector. Keep all field-level edits. Optionally write a short "what you can edit" doc for the owner. This is a 1-2 hour task depending on how clean we want the rewrite.
+**Track B (CMS rewrite, ~1-2 hours):** Revise `.pages.yml` to the new "data entry clerk" scope. Per the final scoping:
+- Hide: section add/remove, package add/remove, layout type selector, page metadata fields, section heading, package labels/meta
+- Mark `readonly: true`: priceOptions, signature, region (and any other non-essential item fields)
+- Expose for editing: only item.name, item.description, item.price, plus add/remove item controls
+- Optionally: a short "what you can edit" guide for the owner
 
-The user can pick one or both depending on energy / token budget. I'd do A first (concrete, unblocks the user), then B (more thinking work, lower urgency).
+The user can pick one or both depending on energy / token budget. Track A unblocks the live site, Track B scopes the CMS to its final shape.
 
 ## Project Status After This Session
 
