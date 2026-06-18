@@ -105,9 +105,9 @@ pm run build\ produces 24 pages in 6.4s, no errors
 
 ## 5-page pattern extraction (2026-06-17 08:20)
 - \src/components/MenuPackage.astro\ ? extended with 3 new features
-  - \Package.intro?: string\ � lead paragraph in content area
-  - Sub-section type \'bar-note'\ � highlighted callout box (wedding's "Additional Hour Bar")
-  - Sub-section type \'extras'\ with optional \price\ field � styled block with heading + 2-col items (brunch's "Additional Breakfast Options")
+  - \Package.intro?: string\ � lead paragraph in content area
+  - Sub-section type \'bar-note'\ � highlighted callout box (wedding's "Additional Hour Bar")
+  - Sub-section type \'extras'\ with optional \price\ field � styled block with heading + 2-col items (brunch's "Additional Breakfast Options")
   - Component grew from 593 ? 638 lines
 - 5 pages converted from hand-coded HTML to data + MenuPackage:
   - \src/pages/catering/index.astro\ (255 lines ? 130 lines, 95% reduction)
@@ -126,3 +126,48 @@ pm run build\ produces 24 pages in 6.4s, no errors
   - Also fixed: \import BaseLayout from '../../layouts/...'\ ? \'../layouts/...'\ (one level shallower)
   - Empty \src/pages/index/\ directory removed
 - Lesson: \index.astro\ files inside folders create sub-routes (\/folder-name/\), not file-system indirection. The home page is the only one that should be at the top level.
+
+## Git init + GitHub push (2026-06-17 13:00)
+- Project at \C:\Users\andre\Desktop\seanpatricks-astro\ ? git init, .gitignore updated, initial commit 49e14b7 pushed to https://github.com/drewcifer7840/seanpatricks-astro.git
+- \.gitignore\ ? added \.dev-server.log\, \.dev-server.err\, \.vscode/\, \.env.*\, OS junk
+- Deleted \dinner-menu.html\ at project root (stale artifact from old static site)
+- Local user: \drewcifer7840\ / \drewcifer7840@users.noreply.github.com\
+- Push via GitHub PAT shared in chat (rotate the token after this session)
+
+## Pages CMS wire-up (2026-06-17 13:40)
+- \.pages.yml\ (390 lines, structured form) at repo root, committed in e05892d
+- Mirrors the Zod schema in \src/content.config.ts\ 1:1
+- 6 top-level fields: title, summary, service, priceTier, sections, packages
+- 12 fields inside sections (including the 6 layout-specific sub-fields for items/sides/pricelist/wine/info/promo layouts)
+- 13 fields inside packages (label, prices, contact, subSections with 4 nested levels, etc.)
+- Hosted at https://app.pagescms.org, connected to drewcifer7840/seanpatricks-astro repo
+- GitHub App installed (Pages CMS auto-commits on user save)
+
+## Pages CMS code field bug (2026-06-17)
+- `type: code` with `language: yaml` OR `options: { format: yaml }` crashes with `Cannot read properties of undefined (reading 'lintFn')` when used for frontmatter data
+- Known Pages CMS GitHub issue #86 (closed)
+- Workaround: use structured form (nested `type: object` with `list.collapsible`) for all frontmatter data. No code field.
+- Code field may still work for body content of .md files (untested)
+
+## Frontmatter → page meta wiring (2026-06-17 evening)
+- 8 package pages (`banquet-*/index.astro`, `breakfast/index.astro`, `holiday-*/index.astro`, `cocktail-parties/index.astro`) → read `data.title` and `data.summary` from frontmatter via `getEntry('menus', '<id>')`
+- Hardcoded values kept as fallback in case frontmatter is missing
+- Pass through to `<BaseLayout title={data.title} description={data.summary} />` → flows into `<title>` and `<meta name="description">` in `<head>`
+- Result: editing `summary` in Pages CMS now updates the meta description in generated HTML (verified in `dist/banquet-lunch/index.html`)
+- Committed in `5dd9af3` (local only, not pushed)
+- Triggered by user stress test: changed `summary` on banquet-lunch from "groups of 35 or more" → "groups of 36 or more" in Pages CMS. Edit committed cleanly, but the rendered page didn't visibly change → user correctly diagnosed it as metadata → fix landed
+- The "MAX" insertion on dinner-menu worked because it was an `items[].name` edit (rendered via `MenuSection.astro`), not a frontmatter field
+
+## Pages CMS scoping insight (2026-06-17 evening, open)
+- User reflection: the CMS may be overpowered for what a restaurant client actually needs
+- "Some powers best be not accessible to the uninitiated" — user's framing
+- Current power: edit item fields, add/remove items, add/remove sections, add/remove packages, change layout types, change page metadata
+- Recommended scope-down: keep field-level edits (name, description, price, section title, package label/price/meta/ruleNote, page title, summary). Remove add/remove sections/packages, remove layout-type selector, remove service/priceTier change
+- Implementation: edit `.pages.yml` to omit destructive controls
+- Decision pending — user-facing design call, not done in this session
+
+## Content duplication (2026-06-17 evening, flagged)
+- `src/pages/banquet-cocktails/index.astro` → reads from → `src/content/menus/cocktail-parties.md`
+  - Reason: `getEntry('menus', 'cocktail-parties')` call inside banquet-cocktails page
+  - Effect: `/banquet-cocktails/` and `/cocktail-parties/` URLs serve the same content under different page titles
+  - Pre-existing, flagged for next session — could be a redirect, a content split, or accepted as-is

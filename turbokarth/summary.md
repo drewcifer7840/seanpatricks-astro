@@ -4,6 +4,30 @@
 
 ---
 
+## 2026-06-17 (evening session: meta tags + CMS scope insight)
+
+**Today we completed:** Closed the loop on the Pages CMS round-trip. The user stress-tested two edits — adding "MAX" to a dinner-menu item (worked) and changing "35" to "36" in the banquet-lunch summary (committed, but the page didn't visibly change). The user correctly diagnosed it: that field was metadata the page wasn't reading. Fixed all 8 package pages to read `data.title` and `data.summary` from frontmatter and pass them through to BaseLayout, so `<title>` and `<meta name="description">` are now live-editable. Build clean, verified in generated HTML. Committed locally as `5dd9af3`.
+
+**We also surfaced a major product insight:** the user reflected on whether the CMS is overpowered for a restaurant client. The system currently lets the owner add/remove entire menu sections, change layout types, and edit structural metadata. The user said: "some powers best be not accessible to the uninitiated." Recommendation: scope `.pages.yml` to keep only field-level edits visible, hide the destructive controls. Decision pending — design conversation, not done today.
+
+**We are now positioned to:** Deploy to Cloudflare Pages (closes the "live site" loop), invite the restaurant owner, and decide on the CMS scope. All three are next-session tasks.
+
+**Recommendation:** Next session, deploy to CF Pages first (30-60 min, unblocks the live site), then decide on CMS scope. The scope-down is a 1-2 hour design call that needs user input on what the client should/shouldn't be able to do.
+
+---
+
+## 2026-06-17 (afternoon session: git + Pages CMS wire-up)
+
+**Today we completed:** Two big infrastructure milestones. (1) Git init, GitHub repo, full project under version control. (2) Pages CMS hosted at app.pagescms.org wired up with a 390-line structured-form config (`.pages.yml`) that mirrors the Astro Zod schema 1:1. The restaurant owner can now edit any menu through a real form — no more raw YAML, no more "ask the dev to change a price." Hit and worked around a Pages CMS bug (`type: code` crashes with `lintFn` on frontmatter data), used a structured-form workaround that's now in the repo.
+
+**We solved:** The "how does the owner edit content" problem. No data lock-in (content stays in GitHub markdown files, just like before). No new services to manage (Pages CMS hosted is free + MIT). Real forms for every menu item, every package, every section. Save → commits to GitHub → ready for CF Pages to auto-deploy.
+
+**We are now positioned to:** Deploy to Cloudflare Pages (the user has an account already) and close the loop: Pages CMS edit → .md commit → CF Pages auto-deploy → live site. Also: invite the restaurant owner to Pages CMS via email (no GitHub account needed). Both are 30-min tasks.
+
+**Recommendation:** Next session, deploy to CF Pages. Build command is `npm run build`, output dir is `dist`, point at the GitHub repo. Free tier is generous (500 builds/month, unlimited bandwidth). Once that's live, the system is genuinely ship-ready.
+
+---
+
 ## 2026-06-17 (morning session: 5-page pattern extraction)
 
 **Today we completed:** The big "extract the 5-page catering pattern into a shared component" task. Extended the existing `MenuPackage.astro` (which already served 4 package pages) to support `'bar-note'` and `'extras'` sub-section types plus an `intro` field. Converted all 5 hand-coded pages (catering, packages, special-packages, wedding, brunch-buffet) from 200+ lines of inline HTML to ~50-100 lines of data + a 5-line render call. Deleted the 5 per-page CSS files. Build clean, 24 pages, 5.3 sec.
