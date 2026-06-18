@@ -34,21 +34,23 @@ content:
         type: select
         default: "banquet"
         options:
-          - "banquet"
-          - "beverage"
-          - "breakfast"
-          - "brunch"
-          - "catering"
-          - "cocktails"
-          - "dinner"
-          - "holiday"
-          - "lunch"
+          values:
+            - "banquet"
+            - "beverage"
+            - "breakfast"
+            - "brunch"
+            - "catering"
+            - "cocktails"
+            - "dinner"
+            - "holiday"
+            - "lunch"
         description: "Used by the page to pick which template/header to render."
 
       - name: priceTier
         label: "Price tier"
         type: select
-        options: ["$", "$$", "$$$"]
+        options:
+          values: ["$", "$$", "$$$"]
 
       # ---------------------------------------------------------------
       # sections — used by menu-list pages (dinner, lunch, drinks)
@@ -74,12 +76,13 @@ content:
             type: select
             default: "items"
             options:
-              - "items"
-              - "sides"
-              - "pricelist"
-              - "wine"
-              - "info"
-              - "promo"
+              values:
+                - "items"
+                - "sides"
+                - "pricelist"
+                - "wine"
+                - "info"
+                - "promo"
             description: |
               items    — card grid of menu items (Starters, Entrees, etc.)
               sides    — 2-column block of plain list items
@@ -379,10 +382,11 @@ content:
                 type: select
                 default: "items"
                 options:
-                  - "items"
-                  - "pricelist"
-                  - "sides"
-                  - "upgrades"
+                  values:
+                    - "items"
+                    - "pricelist"
+                    - "sides"
+                    - "upgrades"
                 description: |
                   items     — bullet list
                   pricelist — name+price rows (use columns below)
