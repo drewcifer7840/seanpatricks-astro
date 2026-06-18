@@ -173,6 +173,16 @@ pm run build\ produces 24 pages in 6.4s, no errors
 - **Pending decisions:** shared vs separate item schema for menu/banquet, where feature flags (vegan/GF) live, final CPT split
 - **Mental model:** dev = architect (sets up structure), client = data entry (fills in items within structure). Each CPT is a focused category with its own field groups.
 
+## Badge taxonomy (2026-06-17 night, the "vocabulary" pattern)
+- `src/data/badges.ts` → single source of truth for the 4 feature-pill slugs (signature, new, gf, new-addon)
+- `src/components/MenuSection.astro` → imports `badgeLabel` from `../data/badges`
+- `.pages.yml` → exposes `badges` field on items as a multi-select dropdown, vocabulary synced from `badges.ts`
+- `src/content/menus/dinner.md` → all 15 `signature: true` items now have `badges: [signature]` (fixes the visual inconsistency with lunch)
+- WP-style "taxonomy" framing: defined once, referenced everywhere
+- **This is the template for any future controlled vocabulary** (cuisine type, allergen tags, menu category, etc.)
+- Commit `c6d33b5` (local only)
+- End-to-end: data file → component → CMS form → data persistence — all working
+
 ## Content duplication (2026-06-17 evening, flagged)
 - `src/pages/banquet-cocktails/index.astro` → reads from → `src/content/menus/cocktail-parties.md`
   - Reason: `getEntry('menus', 'cocktail-parties')` call inside banquet-cocktails page

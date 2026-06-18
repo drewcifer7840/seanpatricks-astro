@@ -45,6 +45,7 @@
 9. **Pages CMS hosted at app.pagescms.org** as the content editor UI. Chosen over Decap CMS (OAuth setup friction) and Sanity (data lock-in, free tier limits). Trade-off: bus factor of 1 (Ronan Berder, single maintainer), mitigated by data living in git (swappable to any other editor).
 10. **No `type: code` in `.pages.yml`** — Pages CMS code field crashes with `lintFn` error on frontmatter data. Workaround: use structured forms (nested `type: object` with `list.collapsible`) for everything. Code field might be safe for body content of .md files, not frontmatter.
 11. **Wire frontmatter to page meta** — package pages (8 of them) read `data.title` and `data.summary` from their .md frontmatter via `getEntry()`, with a hardcoded fallback. Before this fix (commit `5dd9af3`, 2026-06-17 evening), the page title and meta description were hardcoded — so editing `summary` in Pages CMS had no visible effect. Now `<title>` and `<meta name="description">` in the generated HTML are live-editable through the CMS. SEO is now in the owner's hands.
+12. **Badge taxonomy as the model for "vocabulary" fields** — `src/data/badges.ts` is a single source of truth for the 4 feature-pill slugs (signature, new, gf, new-addon). The card component reads from it for labels. The .pages.yml config mirrors it as a multi-select dropdown. The user framed this as WordPress-style "taxonomy" (controlled vocabulary). When extending: one line in `badges.ts` + one line in `.pages.yml` — no component or data changes. This pattern should apply to any future controlled vocabulary (cuisine type, allergen tags, menu category, etc.). Established 2026-06-17, commit `c6d33b5`.
 
 ## Constraints
 - **5-hour coding window limit on user's token plan.** Sessions can be cut off mid-task. TurboKarth memory system exists because of this.
@@ -112,6 +113,8 @@ User reflection (2026-06-17 evening, refined to its final framework): the CMS sh
 - Does the CPT breakdown above match user's mental model, or split differently?
 
 **Pending:** when to do the refactor. Design framework settled, implementation queued.
+
+**First concrete step landed (2026-06-17 night, commit `c6d33b5`):** the badge taxonomy was extracted as a working example of the "single source of truth for vocabulary" pattern. Card component imports from `src/data/badges.ts`. Pages CMS exposes a multi-select dropdown. The dinner-menu pill inconsistency (15 items with `signature: true` but no `badges` array) was fixed in the same pass. Use this as the template for the next CPT's vocabulary work.
 
 ## Working Style
 - **User:** warm, direct, judgment-driven. Hates formulaic transition words and bullet-point intros. Gave explicit license: "do it your way with your suggestions" (don't ask permission for mechanical cleanups).
