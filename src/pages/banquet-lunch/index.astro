@@ -4,16 +4,16 @@ import MenuPackage from '../../components/MenuPackage.astro';
 import { getEntry } from 'astro:content';
 import './banquet-lunch.css';
 
-const title = "Banquet Lunch — Sean Patrick's Emerald Isle";
-const description = undefined;
 const loadMap = true;
 
 const entry = await getEntry('menus', 'banquet-lunch');
 if (!entry) throw new Error('Missing menu content: src/content/menus/banquet-lunch.md');
 const { data } = entry;
+const title = data.title ?? "Banquet Lunch — Sean Patrick's Emerald Isle";
+const description = data.summary;
 ---
 
-<BaseLayout title={title} loadMap={loadMap}>
+<BaseLayout title={title} description={description} loadMap={loadMap}>
   <div class="sp-pkg">
     {data.packages.map((pkg, i) => <MenuPackage pkg={pkg} isFirst={i === 0} compact={pkg.compact} />)}
   </div>

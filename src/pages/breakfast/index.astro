@@ -4,13 +4,13 @@ import MenuPackage from '../../components/MenuPackage.astro';
 import { getEntry } from 'astro:content';
 import './breakfast.css';
 
-const title = "Breakfasts — Sean Patrick's Emerald Isle";
-const description = "Catered breakfast options for groups of 35 or more.";
 const loadMap = true;
 
 const entry = await getEntry('menus', 'breakfast');
 if (!entry) throw new Error('Missing menu content: src/content/menus/breakfast.md');
 const { data } = entry;
+const title = data.title ?? "Breakfasts — Sean Patrick's Emerald Isle";
+const description = data.summary;
 ---
 
 <BaseLayout title={title} description={description} loadMap={loadMap}>

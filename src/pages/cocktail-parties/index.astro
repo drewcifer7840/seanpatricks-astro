@@ -4,13 +4,13 @@ import MenuPackage from '../../components/MenuPackage.astro';
 import { getEntry } from 'astro:content';
 import './cocktail-parties.css';
 
-const title = "Cocktail Parties — Sean Patrick's Emerald Isle";
-const description = "Minimum 35 adult guests · 2 hours open bar";
 const loadMap = true;
 
 const entry = await getEntry('menus', 'cocktail-parties');
 if (!entry) throw new Error('Missing menu content: src/content/menus/cocktail-parties.md');
 const { data } = entry;
+const title = data.title ?? "Cocktail Parties — Sean Patrick's Emerald Isle";
+const description = data.summary;
 ---
 
 <BaseLayout title={title} description={description} loadMap={loadMap}>
