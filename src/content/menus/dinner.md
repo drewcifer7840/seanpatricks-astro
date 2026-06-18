@@ -11,6 +11,7 @@ sections:
         description: Three cheeses, secret stuffing, red sauce, garlic toast.
         price: $14.50
         signature: true
+        badges: [signature]
       - name: Stuffed Mushrooms
         description: Shrimp, crab, cheddar cheese.
         price: $14.50
@@ -35,6 +36,7 @@ sections:
         description: Special lump crab, field greens, spicy aioli.
         price: $24.00
         signature: true
+        badges: [signature]
       - name: Fantail Shrimp
         description: Breaded shrimp, raspberry melba sauce.
         price: $14.00
@@ -83,6 +85,7 @@ sections:
           - label: Bowl
             value: $7.25
         signature: true
+        badges: [signature]
       - name: French Onion Soup
         description: Sherry, croutons, provolone.
         priceOptions:
@@ -91,6 +94,7 @@ sections:
           - label: Bowl
             value: $8.00
         signature: true
+        badges: [signature]
   - heading: Greens
     layout: items
     footnote: <strong>Protein add-ons:</strong> Chicken +$6.50 &nbsp;·&nbsp; Shrimp
@@ -128,6 +132,7 @@ sections:
         description: Strawberries, pistachios, crumbly bleu cheese.
         price: $15.00
         signature: true
+        badges: [signature]
       - name: Cajun Chicken Salad
         description: Cajun seasoned breast, hardboiled egg, cheddar, honey mustard dressing.
         price: $18.00
@@ -152,6 +157,7 @@ sections:
         description: Corned beef, swiss, coleslaw, Thousand Island.
         price: $18.50
         signature: true
+        badges: [signature]
       - name: Salmon Burger
         description: Lettuce, tomato, chipotle aioli.
         price: $17.00
@@ -160,6 +166,7 @@ sections:
         description: Sliced beef on Kummelweck roll.
         price: $16.00
         signature: true
+        badges: [signature]
       - name: Chicken Breast Sandwich
         description: Marinated breast, charbroiled. Add Bacon & Cheddar +$3.00 · Spinach
           & Provolone +$3.00.
@@ -173,14 +180,17 @@ sections:
         description: Sliced tenderloin, garlic roll, lettuce, tomato.
         price: $24.00
         signature: true
+        badges: [signature]
       - name: The Dublin
         description: Turkey, ham, tomatoes, rye, special dressing, swiss.
         price: $17.50
         signature: true
+        badges: [signature]
       - name: The Reuben
         description: Corned beef, rye, Thousand Island, swiss, sauerkraut.
         price: $17.50
         signature: true
+        badges: [signature]
       - name: Albacore Tuna Melt
         description: White tuna, tomato, cheddar, open or closed.
         price: $17.50
@@ -196,6 +206,7 @@ sections:
         description: Special lump crab over field greens, spicy aioli.
         price: $28.00
         signature: true
+        badges: [signature]
       - name: Potato Encrusted Haddock
         description: Haddock fillet in potato crumbs, lobster cream sauce.
         price: $25.00
@@ -228,6 +239,7 @@ sections:
         description: Center cut, apple chutney.
         price: $27.00
         signature: true
+        badges: [signature]
       - name: Liver & Onions
         description: Sautéed calves' liver, onions, bacon.
         price: $21.00
@@ -236,6 +248,7 @@ sections:
         description: Ground beef, steak, corn, carrots, peas, mashed potatoes.
         price: $21.00
         signature: true
+        badges: [signature]
       - name: Famous Fish Fry
         description: Beer battered or broiled, coleslaw and fries.
         price: $19.50
@@ -248,6 +261,7 @@ sections:
         description: Artichokes, sundried tomatoes, basil, goat cheese, lemon butter.
         price: $26.00
         signature: true
+        badges: [signature]
       - name: Charbroiled Chicken
         description: Plain, BBQ, or Cajun.
         price: $23.00
@@ -269,6 +283,7 @@ sections:
         description: Red potatoes, cabbage, carrots.
         price: $21.00
         signature: true
+        badges: [signature]
   - heading: Sides & Add-Ons
     layout: sides
     groups:

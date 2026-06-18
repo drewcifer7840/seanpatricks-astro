@@ -17,6 +17,7 @@
 
 import type { CollectionEntry } from 'astro:content';
 import MenuPriceList from './MenuPriceList.astro';
+import { badgeLabel } from '../data/badges';
 
 type Section = CollectionEntry<'menus'>['data']['sections'][number];
 
@@ -35,13 +36,6 @@ const id =
     .replace(/&/g, '')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '');
-
-// Badge label helper — `new-addon` is a two-word label.
-const badgeLabel = (b: string) => {
-  if (b === 'new-addon') return 'New Add-on';
-  if (b === 'gf') return 'Gluten Free';
-  return b.charAt(0).toUpperCase() + b.slice(1);
-};
 
 const layout = section.layout ?? 'items';
 ---

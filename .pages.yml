@@ -135,6 +135,13 @@ content:
                 label: "Signature item"
                 type: boolean
                 description: "Adds brand-accent border on the left."
+              - name: badges
+                label: "Feature pills"
+                type: select
+                list: true
+                options:
+                  values: ["signature", "new", "gf", "new-addon"]
+                description: "Pills shown under the description. Controlled vocabulary — must match src/data/badges.ts."
               - name: region
                 label: "Region (italic sub-text)"
                 type: string
